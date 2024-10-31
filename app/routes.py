@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from app import app
 
 @app.route('/')
@@ -11,6 +11,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         if username == "admin" and password == "password":
+            session['logged_in'] = True
             flash("Login successful!", "success")
             return redirect(url_for('dashboard'))
         else:
@@ -19,17 +20,14 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html', username="admin")
-
-@app.route('/settings')
-def settings():
-    return "<h1>Settings Page</h1>"
+    if session.get('logged_in'):
+        return render_template('dashboard.html', username="admin")
+    else:
+        flash("Please log in to access the dashboard.", "warning")
+        return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
-    flash("You have been logged out.", "info")
+    session.pop('logged_in', None)
+    flash("Has cerrado sesión.", "info")
     return redirect(url_for('login'))
-
-@app.route('/profile')  # Nueva ruta para el perfil
-def profile():
-    return "<h1>Your Profile</h1>"
