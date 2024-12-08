@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>BELLA VISTA</title>
+    <style>
+        
+        .background-div {
+            background-image: url("/imagenes/imagen1.png"); /* Replace with your image URL */
+            height: 400px; /* Set a height for the div */
+            width: 100%; /* Set the width of the div */
+            background-size: cover; /* Cover the entire div */
+            background-position: cover; /* Center the image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+        }
+    </style>
+</head>
+<body>
+    <div class="background-div"></div> <!-- Div para la imagen de fondo -->
+
+
+    <div class="container d-flex align-items-center justify-content-center min-vh-100">
+        <div class="row w-100">
+
+            
+            <div class="col-md-6 text-left"> <!-- Columna para el texto -->
+                <h2 class="text-primary">Bienvenido a nuestra plataforma de gestion y control de beneficios</h2>
+                <p>Inicia sesión para gestionar los pagos de beneficios de la comunidad Bella Vista.</p>
+            </div>
+
+
+            <div class="col-md-6"> <!-- Columna para el formulario -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Iniciar Sesión</h5>
+                        <form method="POST" action="/login">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                        </form>
+                        <div class="text-center mt-3"> <!-- Texto adicional al final del formulario -->
+                            <a href="/register">¿Eres jefe de comuna? Entra aquí.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
