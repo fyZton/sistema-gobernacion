@@ -12,12 +12,12 @@
         <h1>Registro de otros pago</h1>
         <nav>
             <ul id="navbar">
-                <li><a href="dashboard.html"> Inicio <i class="fa fa-home" aria-hidden="true"></i></a></li>
-                <li><a href="gas.html">Gas</a></li>
-                <li><a href="clap.html">CLAP</a></li>
-                <li><a class="active" href="otros.html">Otros Pagos </a></li>
-                <li><a href="contacto.html"> Contacto <i class="fa fa-phone" aria-hidden="true"></i></a></li>
-                <li><a href="login.html" onclick="cerrarSesion(event)">salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                <li><a class="active" href="{{ url_for('dashboard') }}"> Inicio <i class="fa fa-home" aria-hidden="true"></i></a></li>
+                <li><a href="{{ url_for('gas') }}">Gas</a></li>
+                <li><a href="{{ url_for('clap') }}">CLAP</a></li>
+                <li><a href="{{ url_for('otros') }}">Otros Pagos</a></li>
+                <li><a href="{{ url_for('contacto') }}">Contacto <i class="fa fa-phone" aria-hidden="true"></i></a></li>
+                <li><a href="{{ url_for('logout') }}">salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
             </ul>
         </nav>
     </section>

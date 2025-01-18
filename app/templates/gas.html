@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
-    <link rel="stylesheet" href="/static/gas.css"> <!-- Enlace al archivo CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='gas.css') }}"> <!-- Enlace al archivo CSS -->
     <title>Formulario de Pago GAS</title>
+
+    <!-- Librería Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
 </head>
 <body>
     <section id="header">
         <h1>Registro de pago de Gas</h1>
         <nav>
             <ul id="navbar">
-                <li><a href="dashboard.html"> Inicio <i class="fa fa-home" aria-hidden="true"></i></a></li>
-                <li><a class="active" href="gas.html">Gas</a></li>
-                <li><a href="clap.html">CLAP</a></li>
-                <li><a href="otros.html">Otros Pagos </a></li>
-                <li><a href="contacto.html"> Contacto <i class="fa fa-phone" aria-hidden="true"></i></a></li>
-                <li><a href="login.html" onclick="cerrarSesion(event)">salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                <li><a class="active" href="{{ url_for('dashboard') }}"> Inicio <i class="fa fa-home" aria-hidden="true"></i></a></li>
+                <li><a href="{{ url_for('gas') }}">Gas</a></li>
+                <li><a href="{{ url_for('clap') }}">CLAP</a></li>
+                <li><a href="{{ url_for('otros') }}">Otros Pagos</a></li>
+                <li><a href="{{ url_for('contacto') }}">Contacto <i class="fa fa-phone" aria-hidden="true"></i></a></li>
+                <li><a href="{{ url_for('logout') }}">salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
             </ul>
         </nav>
     </section>
@@ -26,7 +29,7 @@
     <main>
         <section id="cuadro">
             <h2>Ingrese sus datos de pago</h2>
-            <form action="#" method="POST">
+            <form action="{{ url_for('gas') }}" method="POST">
                 <div class="form-group">
                     <label for="jefe-familia">Jefe de Familia:</label>
                     <input type="text" id="jefe-familia" name="jefe-familia" required>
@@ -40,7 +43,7 @@
                     <input type="number" id="cantidad" name="cantidad" required>
                 </div>
                 <div class="form-group">
-                    <label for="descripcion">Descripcion:</label>
+                    <label for="descripcion">Descripción:</label>
                     <input type="text" id="descripcion" name="descripcion" required>
                 </div>
                 <div class="form-group">
@@ -56,6 +59,13 @@
         </section>
     </main>
 
-   
+    <!-- Script para aplicar la máscara de fecha -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.getElementById("fecha-pago");
+            var im = new Inputmask("99/99/99"); // Establece el formato de fecha DD/MM/AA
+            im.mask(input);
+        });
+    </script>
 </body>
 </html>

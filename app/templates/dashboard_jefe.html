@@ -4,39 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> BELLA VISTA </title>
+    <title> BELLA VISTA - Jefe de Comuna </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
-    <link rel="stylesheet" href="{{ url_for('static', filename='disenos.css') }}">
+    <link rel="stylesheet" href="/static/disenos.css">
 </head>
 <body>
     <section id="header">
-        <a href="#"><img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt="">
+        <a href="#"><img src="/imagenes/BELLA_VISTA2.png" class="logo" alt=""></a>
         <div>
             <ul id="navbar">
-                <li><a class="active" href="{{ url_for('dashboard') }}"> Inicio <i class="fa fa-home" aria-hidden="true"></i></a></li>
+                <li><a class="active" href="{{ url_for('dashboard_jefe') }}">Inicio <i class="fa fa-home" aria-hidden="true"></i></a></li>
                 <li><a href="{{ url_for('gas') }}">Gas</a></li>
                 <li><a href="{{ url_for('clap') }}">CLAP</a></li>
                 <li><a href="{{ url_for('otros') }}">Otros Pagos</a></li>
                 <li><a href="{{ url_for('contacto') }}">Contacto <i class="fa fa-phone" aria-hidden="true"></i></a></li>
-                <li><a href="{{ url_for('logout') }}">salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                <li><a href="{{ url_for('logout') }}">Salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
             </ul>
         </div>
     </section>
 
     <section id="hero">
-        <h1> Pagina de control de pagos </h1>
-        <h2> Bienvenido, {{ session.get('username') }} </h2> <!-- Nombre del usuario -->
-        <h2> Barrio Bella Vista </h2>
-        <h2> registra tus pagos fácil y rápido </h2>
+        <h1>Página de control de pagos</h1>
+        <h2>Bienvenido, {{ username }}</h2> <!-- Muestra el nombre del jefe de comuna -->
+        <h2>Barrio Bella Vista</h2>
+        <h2>Registra tus pagos fácil y rápido</h2>
         <p></p>
-        <h3> "La unión de la sociedad es el futuro del mundo" </h3>
+        <h3>"La unión de la sociedad es el futuro del mundo"</h3>
     </section>
-    
+
     <section id="feature" class="section-p1">
         <div class="fe-box">
             <a href="{{ url_for('gas') }}">
                 <img src="/imagenes/features/imagen4.jpg" alt="">
-                <h6> Pago de gas</h6>
+                <h6>Pago de gas</h6>
             </a>
         </div>
         <div class="fe-box">
@@ -48,7 +48,7 @@
         <div class="fe-box">
             <a href="{{ url_for('otros') }}">
                 <img src="/imagenes/features/imagen5.png" alt="">
-                <h6> Otros pagos </h6>
+                <h6>Otros pagos</h6>
             </a>
         </div>
     </section>
