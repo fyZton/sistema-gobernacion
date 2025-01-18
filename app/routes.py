@@ -13,24 +13,24 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # Conectar a la base de datos
+        
         connection = get_connection()
         try:
             cursor = connection.cursor()
-            # Consulta SQL con valores de usuario y contraseña
+            
             query = "SELECT id, username, role FROM usuarios WHERE username = %s AND password = %s"
             cursor.execute(query, (username, password))
-            user = cursor.fetchone()  # Obtén el usuario si existe
-            print(f"[DEBUG] Resultado de la consulta: {user}")  # Depuración
+            user = cursor.fetchone()  
+            print(f"[DEBUG] Resultado de la consulta: {user}")  
         except Exception as e:
-            print(f"[DEBUG] Error en la base de datos: {e}")  # Depuración
+            print(f"[DEBUG] Error en la base de datos: {e}")  
             flash("Error al conectar con la base de datos.", "danger")
             user = None
         finally:
             connection.close()
 
         if user:
-            # Guardar la sesión si el usuario existe
+            
             session['logged_in'] = True
             session['user_id'] = user[0]
             session['username'] = user[1]
@@ -50,33 +50,33 @@ def login_jefe():
         username = request.form['username']
         password = request.form['password']
 
-        # Lógica para autenticar a los jefes de comuna
+        
         connection = get_connection()
         try:
             cursor = connection.cursor()
             query = "SELECT id, username, password, role FROM usuario WHERE username = %s"
             cursor.execute(query, (username,))
             user = cursor.fetchone()
-            print(f"[DEBUG] Usuario encontrado: {user}")  # Verifica si el usuario se encuentra correctamente
+            print(f"[DEBUG] Usuario encontrado: {user}")  
         except Exception as e:
             flash("Error al conectar con la base de datos.", "danger")
             user = None
         finally:
             connection.close()
 
-        # Verifica si el usuario existe y si la contraseña es correcta
+        
         if user:
-            print(f"[DEBUG] Contraseña ingresada: {password}, Contraseña en base de datos: {user[2]}")  # Compara las contraseñas
-            if user[2] == password:  # Comparar directamente las contraseñas sin usar check_password_hash
-                # Verifica que el rol sea 'jefe_comuna'
+            print(f"[DEBUG] Contraseña ingresada: {password}, Contraseña en base de datos: {user[2]}")  
+            if user[2] == password:  
+                
                 if user[3] == 'jefe_comuna':  # user[3] es el campo de rol
-                    print(f"[DEBUG] Autenticación exitosa para {username}")  # Verifica si la autenticación es exitosa
+                    print(f"[DEBUG] Autenticación exitosa para {username}")  
                     session['logged_in'] = True
                     session['user_id'] = user[0]
                     session['username'] = user[1]
                     session['role'] = user[3]
                     flash("¡Inicio de sesión exitoso como Jefe de Comuna!", "success")
-                    return redirect(url_for('dashboard_jefe'))  # Redirige al dashboard si todo es correcto
+                    return redirect(url_for('dashboard_jefe'))  
                 else:
                     flash("Acceso denegado: No tienes el rol de Jefe de Comuna.", "danger")
             else:
@@ -84,7 +84,7 @@ def login_jefe():
         else:
             flash("Usuario no encontrado.", "danger")
 
-    return render_template('login_jefe.html')  # Aquí se carga la plantilla de login para jefes de comuna
+    return render_template('login_jefe.html')  
 
 @app.route('/dashboard_jefe')
 def dashboard_jefe():
@@ -92,7 +92,7 @@ def dashboard_jefe():
         return render_template('dashboard_jefe.html', username=session.get('username'))
     else:
         flash("Acceso no autorizado.", "danger")
-        return redirect(url_for('login_jefe'))  # Si no es jefe de comuna, lo redirige al login de jefe de comuna
+        return redirect(url_for('login_jefe'))  
         """
 
 @app.route('/dashboard')
@@ -108,7 +108,7 @@ def dashboard():
 @app.route('/gas', methods=['GET', 'POST'])
 def gas():
     if request.method == 'POST':
-        # Recoger los datos del formulario
+        
         jefe_familia = request.form['jefe-familia']
         cedula = request.form['cedula']
         cantidad = request.form['cantidad']
@@ -116,32 +116,32 @@ def gas():
         codigo_referencia = request.form['codigo-referencia']
         fecha_pago = request.form['fecha-pago']
         
-        # Convertir la fecha de pago en formato adecuado
+        
         fecha_pago = datetime.strptime(fecha_pago, '%d/%m/%y').strftime('%Y-%m-%d')
 
-        # Obtener el ID del usuario desde la sesión
-        usuario_id = session.get('user_id')  # Suponiendo que el usuario está logueado
+        
+        usuario_id = session.get('user_id')  
 
-        # Conectar a la base de datos
+        
         connection = get_connection()
         try:
             cursor = connection.cursor()
-            # Consulta SQL para insertar los datos en la tabla pagos_gas
+            
             query = """
                 INSERT INTO pagos_gas (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago, creado_en, actualizado_en)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
             """
-            # Ejecutar la consulta con los valores del formulario
+            
             cursor.execute(query, (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago))
             connection.commit()
             flash("¡Pago registrado con éxito!", "success")
         except Exception as e:
-            print(f"[DEBUG] Error en la base de datos: {e}")  # Depuración
+            print(f"[DEBUG] Error en la base de datos: {e}")  
             flash("Error al registrar el pago en la base de datos.", "danger")
         finally:
             connection.close()
 
-        # Redirigir al dashboard después de registrar el pago
+        
         return redirect(url_for('dashboard'))
 
     return render_template('gas.html')
@@ -150,7 +150,7 @@ def gas():
 @app.route('/clap', methods=['GET', 'POST'])
 def clap():
     if request.method == 'POST':
-        # Recoger los datos del formulario
+        
         jefe_familia = request.form['jefe-familia']
         cedula = request.form['cedula']
         cantidad = request.form['cantidad']
@@ -158,41 +158,41 @@ def clap():
         codigo_referencia = request.form['codigo-referencia']
         fecha_pago = request.form['fecha-pago']
         
-        # Convertir la fecha de pago en formato adecuado
+        
         fecha_pago = datetime.strptime(fecha_pago, '%d/%m/%y').strftime('%Y-%m-%d')
 
-        # Obtener el ID del usuario desde la sesión
-        usuario_id = session.get('user_id')  # Suponiendo que el usuario está logueado
+        
+        usuario_id = session.get('user_id')  
 
-        # Conectar a la base de datos
+        
         connection = get_connection()
         try:
             cursor = connection.cursor()
-            # Consulta SQL para insertar los datos en la tabla pagos_clap
+            
             query = """
                 INSERT INTO pagos_clap (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago, creado_en, actualizado_en)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
             """
-            # Ejecutar la consulta con los valores del formulario
+            
             cursor.execute(query, (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago))
             connection.commit()
             flash("¡Pago registrado con éxito!", "success")
         except Exception as e:
-            print(f"[DEBUG] Error en la base de datos: {e}")  # Depuración
+            print(f"[DEBUG] Error en la base de datos: {e}")  
             flash("Error al registrar el pago en la base de datos.", "danger")
         finally:
             connection.close()
 
-        # Redirigir al dashboard después de registrar el pago
+        
         return redirect(url_for('dashboard'))
 
-    return render_template('clap.html')  # O lo que sea que quieras que haga esta ruta
+    return render_template('clap.html')  
 
 
 @app.route('/otros', methods=['GET', 'POST'])
 def otros():
     if request.method == 'POST':
-        # Recoger los datos del formulario
+        
         jefe_familia = request.form['jefe-familia']
         cedula = request.form['cedula']
         cantidad = request.form['cantidad']
@@ -200,35 +200,35 @@ def otros():
         codigo_referencia = request.form['codigo-referencia']
         fecha_pago = request.form['fecha-pago']
         
-        # Convertir la fecha de pago en formato adecuado
+        
         fecha_pago = datetime.strptime(fecha_pago, '%d/%m/%y').strftime('%Y-%m-%d')
 
-        # Obtener el ID del usuario desde la sesión
-        usuario_id = session.get('user_id')  # Suponiendo que el usuario está logueado
+        
+        usuario_id = session.get('user_id')  
 
-        # Conectar a la base de datos
+        
         connection = get_connection()
         try:
             cursor = connection.cursor()
-            # Consulta SQL para insertar los datos en la tabla pagos_otros
+            
             query = """
                 INSERT INTO pagos_otros (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago, creado_en, actualizado_en)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
             """
-            # Ejecutar la consulta con los valores del formulario
+            
             cursor.execute(query, (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago))
             connection.commit()
             flash("¡Pago registrado con éxito!", "success")
         except Exception as e:
-            print(f"[DEBUG] Error en la base de datos: {e}")  # Depuración
+            print(f"[DEBUG] Error en la base de datos: {e}")  
             flash("Error al registrar el pago en la base de datos.", "danger")
         finally:
             connection.close()
 
-        # Redirigir al dashboard después de registrar el pago
+        
         return redirect(url_for('dashboard'))
 
-    return render_template('otros.html')  # O lo que sea que quieras que haga esta ruta
+    return render_template('otros.html')  
 
 
 @app.route('/contacto')
