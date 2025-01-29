@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
+    <link rel="stylesheet" href="{{ url_for('static', filename='gas.css') }}"> 
+    <title>Servicio a cancelar</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
+</head>
+<body>
+    <section id="header">
+        <h1>Servicio</h1>
+    </section>
+
+    <main>
+        <section id="cuadro">
+            <h2>Ingrese sus datos de pago</h2>
+            <form action="{{ url_for('servicio') }}" method="POST">
+                <div class="form-group">
+                    <label for="jefe-familia">Jefe de Familia:</label>
+                    <h3> {{ session.get('username') }} </h3>
+                </div>
+                <div class="form-group">
+                    <label for="cedula">Cédula:</label>
+                    <h3> {{ session.get('numero_cedula') }} </h3>
+                </div> 
+                <div class="form-group">
+                    <label for="codigo-referencia">Código de Referencia:</label>
+                    <input type="text" id="codigo-referencia" name="codigo-referencia" required placeholder="Últimos seis dígitos">
+                </div>
+                <div class="form-group">
+                    <label for="monto">Monto:</label>
+                    <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
+                </div>
+
+                <!-- Checkbox de bancos -->
+                <div class="form-group">
+                    <label>Seleccione el banco usado:</label><br>
+                    <label><input type="checkbox" name="banco" value="0102"> Banco de Venezuela (0102)</label><br>
+                    <label><input type="checkbox" name="banco" value="0163"> Banco del Tesoro (0163)</label><br>
+                    <label><input type="checkbox" name="banco" value="0175"> Banco Bicentenario (0175)</label><br>
+                    <label><input type="checkbox" name="banco" value="0108"> BBVA Provincial (0108)</label><br>
+                    <label><input type="checkbox" name="banco" value="0105"> Banco Mercantil (0105)</label><br>
+                    <label><input type="checkbox" name="banco" value="0134"> Banesco (0134)</label><br>
+                    <label><input type="checkbox" name="banco" value="0116"> BOD (0116)</label><br>
+                    <label><input type="checkbox" name="banco" value="0191"> BNC (0191)</label><br>
+                    <label><input type="checkbox" name="banco" value="0115"> Banco Exterior (0115)</label><br>
+                    <label><input type="checkbox" name="banco" value="0104"> Banco del Caribe (0104)</label><br>
+                    <label><input type="checkbox" name="banco" value="0138"> Banco Plaza (0138)</label><br>
+                    <label><input type="checkbox" name="banco" value="0171"> Banco Activo (0171)</label><br>
+                    <label><input type="checkbox" name="banco" value="0173"> BID (0173)</label><br>
+                    <label><input type="checkbox" name="banco" value="0156"> 100% Banco (0156)</label><br>
+                    <label><input type="checkbox" name="banco" value="0166"> Banco Agrícola (0166)</label><br>
+                    <label><input type="checkbox" name="banco" value="0137"> Banco Sofitasa (0137)</label><br>
+                    <label><input type="checkbox" name="banco" value="0168"> Bancrecer (0168)</label><br>
+                    <label><input type="checkbox" name="banco" value="0169"> Mi Banco (0169)</label><br>
+                </div>
+
+                <button type="submit">Registrar Pago</button>
+            </form>
+        </section>
+    </main>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.getElementById("fecha-pago");
+            var im = new Inputmask("99/99/99"); 
+            im.mask(input);
+        });
+    </script>
+</body>
+</html>

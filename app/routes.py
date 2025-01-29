@@ -2,10 +2,64 @@ from flask import render_template, request, redirect, url_for, flash, session
 from app import app
 from app.db import get_connection
 from datetime import datetime
+from werkzeug.security import check_password_hash
+
 
 @app.route('/')
 def home():
     return redirect(url_for('login'))
+
+
+from werkzeug.security import generate_password_hash
+
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'POST':
+        tipo_cedula = request.form['tipo_cedula']
+        numero_cedula = request.form['numero_cedula']
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        username = request.form['username']
+        correo = request.form['correo']
+        password = generate_password_hash(request.form['password'])
+        jefe_familia = request.form['jefe_familia']  # 'si' o 'no'
+
+        connection = get_connection()
+        try:
+            cursor = connection.cursor()
+
+            # Determinar rol de usuario
+            if jefe_familia == 'si':
+                cursor.execute("SELECT id FROM roles WHERE nombre = %s", ('jefe_familia',))
+            else:
+                cursor.execute("SELECT id FROM roles WHERE nombre = %s", ('usuario_normal',))
+            
+            rol_result = cursor.fetchone()
+            if not rol_result:
+                flash("Error: No se encontró el rol.", "danger")
+                return redirect(url_for('registro'))
+            
+            rol_id = rol_result[0]
+
+            # Insertar en tabla usuarios tipo_cedula y numero_cedula
+            query_usuarios = """
+                INSERT INTO usuarios (nombre, apellido, username, correo, password, rol_id, tipo_cedula, numero_cedula)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(query_usuarios, (nombre, apellido, username, correo, password, rol_id, tipo_cedula, numero_cedula))
+
+            connection.commit()
+            flash("¡Registro exitoso! Puedes iniciar sesión.", "success")
+            return redirect(url_for('login'))
+
+        except Exception as e:
+            flash(f"Error al registrar usuario: {e}", "danger")
+            connection.rollback()
+        finally:
+            connection.close()
+
+    return render_template('registro.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -13,139 +67,99 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        
         connection = get_connection()
         try:
             cursor = connection.cursor()
-            
-            query = "SELECT id, username, role FROM usuarios WHERE username = %s AND password = %s"
-            cursor.execute(query, (username, password))
-            user = cursor.fetchone()  
-            print(f"[DEBUG] Resultado de la consulta: {user}")  
-        except Exception as e:
-            print(f"[DEBUG] Error en la base de datos: {e}")  
-            flash("Error al conectar con la base de datos.", "danger")
-            user = None
-        finally:
-            connection.close()
-
-        if user:
-            
-            session['logged_in'] = True
-            session['user_id'] = user[0]
-            session['username'] = user[1]
-            session['role'] = user[2]
-            flash("¡Inicio de sesión exitoso!", "success")
-            print(f"[DEBUG] Usuario autenticado: {user[1]}")  # Depuración
-            return redirect(url_for('dashboard'))
-        else:
-            flash("Usuario o contraseña incorrectos.", "danger")
-            print("[DEBUG] Credenciales incorrectas")  # Depuración
-
-    return render_template('login.html')
-"""
-@app.route('/login_jefe', methods=['GET', 'POST'])
-def login_jefe():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        
-        connection = get_connection()
-        try:
-            cursor = connection.cursor()
-            query = "SELECT id, username, password, role FROM usuario WHERE username = %s"
+            query = """
+                SELECT u.id, u.username, u.password, u.rol_id, r.nombre, u.tipo_cedula, u.numero_cedula 
+                FROM usuarios u
+                JOIN roles r ON u.rol_id = r.id
+                WHERE u.username = %s
+            """
             cursor.execute(query, (username,))
             user = cursor.fetchone()
-            print(f"[DEBUG] Usuario encontrado: {user}")  
-        except Exception as e:
-            flash("Error al conectar con la base de datos.", "danger")
-            user = None
-        finally:
-            connection.close()
-
-        
-        if user:
-            print(f"[DEBUG] Contraseña ingresada: {password}, Contraseña en base de datos: {user[2]}")  
-            if user[2] == password:  
-                
-                if user[3] == 'jefe_comuna':  # user[3] es el campo de rol
-                    print(f"[DEBUG] Autenticación exitosa para {username}")  
+            
+            if user:
+                if check_password_hash(user[2], password):  # Verificar la pw
                     session['logged_in'] = True
                     session['user_id'] = user[0]
                     session['username'] = user[1]
-                    session['role'] = user[3]
-                    flash("¡Inicio de sesión exitoso como Jefe de Comuna!", "success")
-                    return redirect(url_for('dashboard_jefe'))  
+                    session['role'] = user[4]
+                    session['numero_cedula'] = f"{user[5]}-{user[6]}"  # guardar cedula completa
+                    flash("¡Inicio de sesión exitoso!", "success")
+                    return redirect(url_for('dashboard'))
                 else:
-                    flash("Acceso denegado: No tienes el rol de Jefe de Comuna.", "danger")
+                    flash("Usuario o contraseña incorrectos.", "danger")
             else:
-                flash("Usuario o contraseña incorrectos.", "danger")
-        else:
-            flash("Usuario no encontrado.", "danger")
+                flash("Usuario no encontrado.", "danger")
+        except Exception as e:
+            flash("Error al conectar con la base de datos.", "danger")
+        finally:
+            connection.close()
 
-    return render_template('login_jefe.html')  
+    return render_template('login.html')
 
-@app.route('/dashboard_jefe')
-def dashboard_jefe():
-    if 'logged_in' in session and session.get('role') == 'jefe_comuna':
-        return render_template('dashboard_jefe.html', username=session.get('username'))
-    else:
-        flash("Acceso no autorizado.", "danger")
-        return redirect(url_for('login_jefe'))  
-        """
+
+
+
 
 @app.route('/dashboard')
 def dashboard():
     if session.get('logged_in'):
-        username = session.get('username', "Usuario")
-        role = session.get('role', "Sin rol")
-        return render_template('dashboard.html', username=username, role=role)
+        role = session.get('role')
+
+        if role == 'administrador':
+            # en creacion para admin
+            return render_template('dashboard_admin.html')
+        elif role == 'jefe_familia':
+            # en creacion para jefe de familia
+            return render_template('dashboard_jefe.html')
+        else:
+            # Vista para usuarios total
+            return render_template('dashboard.html')
+
+
     else:
         flash("Por favor, inicia sesión para acceder al dashboard.", "warning")
         return redirect(url_for('login'))
+
     
-@app.route('/gas', methods=['GET', 'POST'])
+@app.route('/gas', methods=['GET'])
 def gas():
-    if request.method == 'POST':
-        
-        jefe_familia = request.form['jefe-familia']
-        cedula = request.form['cedula']
-        cantidad = request.form['cantidad']
-        descripcion = request.form['descripcion']
-        codigo_referencia = request.form['codigo-referencia']
-        fecha_pago = request.form['fecha-pago']
-        
-        
-        fecha_pago = datetime.strptime(fecha_pago, '%d/%m/%y').strftime('%Y-%m-%d')
+    conn = get_connection()
+    cursor = conn.cursor()
 
-        
-        usuario_id = session.get('user_id')  
+    try:
+        # Consulta para obtener el nombre de usuario
+        cursor.execute("SELECT username FROM usuarios WHERE id = 1")  # Cambia según tu caso
+        result = cursor.fetchone()
+        username = result[0] if result else None
 
-        
-        connection = get_connection()
-        try:
-            cursor = connection.cursor()
-            
-            query = """
-                INSERT INTO pagos_gas (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago, creado_en, actualizado_en)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
-            """
-            
-            cursor.execute(query, (usuario_id, jefe_familia, cedula, cantidad, descripcion, codigo_referencia, fecha_pago))
-            connection.commit()
-            flash("¡Pago registrado con éxito!", "success")
-        except Exception as e:
-            print(f"[DEBUG] Error en la base de datos: {e}")  
-            flash("Error al registrar el pago en la base de datos.", "danger")
-        finally:
-            connection.close()
+        # Consulta para obtener la cédula
+        cursor.execute("SELECT numero_cedula FROM usuarios WHERE id = 1")  # Ajustado a la nueva estructura
+        result = cursor.fetchone()
+        cedula = result[0] if result else None
 
-        
-        return redirect(url_for('dashboard'))
+        # Consulta para obtener la cantidad de miembros
+        cursor.execute("SELECT COUNT(*) FROM usuarios")
+        result = cursor.fetchone()
+        member_count = result[0] if result else 0
 
-    return render_template('gas.html')
+        # mostrar mensaje y evitar errores
+        if username is None or cedula is None:
+            flash("No se encontraron datos para el usuario", "warning")
+            return redirect(url_for('dashboard'))
 
+    except Exception as e:
+        flash(f"Error al obtener datos: {e}", "danger")
+        return redirect(url_for('dashboard'))  # Redirigir con error
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    # render pantalla si funciona
+    return render_template('gas.html', username=username, cedula=cedula, member_count=member_count)
 
 @app.route('/clap', methods=['GET', 'POST'])
 def clap():
@@ -243,3 +257,19 @@ def logout():
     session.pop('role', None)
     flash("Has cerrado sesión.", "info")
     return redirect(url_for('login'))
+
+@app.route('/servicio', methods=['GET', 'POST'])
+def servicio():
+    if request.method == 'POST':
+        codigo_referencia = request.form.get('codigo-referencia')
+
+        
+        flash("Pago registrado exitosamente.", "success")
+        return redirect(url_for('dashboard'))  # Redirigir después del pago
+
+    # Obtener datos del usuario autenticado
+    username = session.get('username')
+    cedula = session.get('numero_cedula')  
+    cantidad = session.get('cantidad', 'N/A')  
+
+    return render_template('servicio.html', username=username, cedula=cedula, cantidad=cantidad)

@@ -3,3 +3,4 @@ pg8000==1.29.1
 Flask-SQLAlchemy==2.5.1
 flask-wtf==1.0.1
 Jinja2==3.0.3
+werkzeug002.1.4

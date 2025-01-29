@@ -14,10 +14,6 @@
         <div>
             <ul id="navbar">
                 <li><a class="active" href="{{ url_for('dashboard') }}"> Inicio <i class="fa fa-home" aria-hidden="true"></i></a></li>
-                <li><a href="{{ url_for('gas') }}">Gas</a></li>
-                <li><a href="{{ url_for('clap') }}">CLAP</a></li>
-                <li><a href="{{ url_for('otros') }}">Otros Pagos</a></li>
-                <li><a href="{{ url_for('contacto') }}">Contacto <i class="fa fa-phone" aria-hidden="true"></i></a></li>
                 <li><a href="{{ url_for('logout') }}">salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
             </ul>
         </div>
@@ -34,21 +30,9 @@
     
     <section id="feature" class="section-p1">
         <div class="fe-box">
-            <a href="{{ url_for('gas') }}">
+            <a href="{{ url_for('servicio') }}">
                 <img src="/imagenes/features/imagen4.jpg" alt="">
-                <h6> Pago de gas</h6>
-            </a>
-        </div>
-        <div class="fe-box">
-            <a href="{{ url_for('clap') }}">
-                <img src="/imagenes/features/imagen1.jpg" alt="">
-                <h6>Pago de CLAP</h6>
-            </a>
-        </div>
-        <div class="fe-box">
-            <a href="{{ url_for('otros') }}">
-                <img src="/imagenes/features/imagen5.png" alt="">
-                <h6> Otros pagos </h6>
+                <h6>Servicio</h6>
             </a>
         </div>
     </section>

@@ -1,4 +1,6 @@
-from flask import Flask
+from flask import Flask, render_template
+from db import get_connection
+
 
 
 app = Flask(__name__, static_folder='static')  
