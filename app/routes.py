@@ -3,6 +3,8 @@ from app import app
 from app.db import get_connection
 from datetime import datetime
 from werkzeug.security import check_password_hash
+import pg8000
+
 
 
 @app.route('/')
@@ -258,18 +260,82 @@ def logout():
     flash("Has cerrado sesión.", "info")
     return redirect(url_for('login'))
 
+# Función para obtener el ID del banco
+def get_banco_id(banco_nombre):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM public.bancos WHERE nombre = %s", (banco_nombre,))
+        banco_id = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return banco_id[0] if banco_id else None
+    except Exception as e:
+        print(f"Error al obtener el ID del banco: {e}")
+        return None
+
 @app.route('/servicio', methods=['GET', 'POST'])
 def servicio():
+    username = session.get('username')
+    cedula = session.get('numero_cedula')
+    cantidad = session.get('cantidad', 'N/A')
+
+    # Obtener beneficios activos
+    beneficios = []
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, nombre FROM public.beneficios")
+        beneficios = cursor.fetchall()  # Lista de tuplas [(id, nombre)]
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        flash(f"Hubo un error al obtener los beneficios: {e}", "error")
+
     if request.method == 'POST':
         codigo_referencia = request.form.get('codigo-referencia')
+        monto = request.form.get('monto')
+        banco = request.form.get('banco')
+        beneficio_id = request.form.get('beneficio')  # ID directamente del formulario
 
-        
-        flash("Pago registrado exitosamente.", "success")
-        return redirect(url_for('dashboard'))  # Redirigir después del pago
+        if not codigo_referencia or not monto or not banco or not beneficio_id:
+            flash("Todos los campos son obligatorios.", "error")
+            return redirect(url_for('servicio'))
 
-    # Obtener datos del usuario autenticado
-    username = session.get('username')
-    cedula = session.get('numero_cedula')  
-    cantidad = session.get('cantidad', 'N/A')  
+        banco_id = get_banco_id(banco)
+        if not banco_id:
+            flash("Banco no válido.", "error")
+            return redirect(url_for('servicio'))
 
-    return render_template('servicio.html', username=username, cedula=cedula, cantidad=cantidad)
+        try:
+            conn = get_connection()
+            cursor = conn.cursor()
+
+            # Obtener el ID del usuario
+            cursor.execute("SELECT id FROM public.usuario WHERE username = %s", (username,))
+            usuario = cursor.fetchone()
+            if not usuario:
+                flash("Usuario no encontrado.", "error")
+                return redirect(url_for('servicio'))
+            
+            usuario_id = usuario[0]  # Extraer ID
+
+            # Insertar el pago
+            insert_query = """
+                INSERT INTO pagos (usuario_id, cedula, codigo_referencia, monto, banco_id, fecha, beneficio_id)
+                VALUES (%s, %s, %s, %s, %s, NOW(), %s)
+            """
+            cursor.execute(insert_query, (usuario_id, cedula, codigo_referencia, monto, banco_id, beneficio_id))
+            conn.commit()
+
+            cursor.close()
+            conn.close()
+
+            flash("Pago registrado exitosamente.", "success")
+            return redirect(url_for('dashboard'))
+
+        except Exception as e:
+            flash(f"Error al registrar el pago: {str(e)}", "error")
+            return redirect(url_for('servicio'))
+
+    return render_template('servicio.html', username=username, cedula=cedula, cantidad=cantidad, beneficios=beneficios)
