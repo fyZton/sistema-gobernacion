@@ -260,7 +260,6 @@ def logout():
     flash("Has cerrado sesión.", "info")
     return redirect(url_for('login'))
 
-# Función para obtener el ID del banco
 def get_banco_id(banco_nombre):
     try:
         conn = get_connection()
@@ -273,19 +272,18 @@ def get_banco_id(banco_nombre):
     except Exception as e:
         print(f"Error al obtener el ID del banco: {e}")
         return None
-
+    
 @app.route('/servicio', methods=['GET', 'POST'])
 def servicio():
     username = session.get('username')
     cedula = session.get('numero_cedula')
-    cantidad = session.get('cantidad', 'N/A')
 
     # Obtener beneficios activos
     beneficios = []
     try:
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, nombre FROM public.beneficios")
+        cursor.execute("SELECT id, nombre FROM public.beneficios WHERE activo = TRUE")
         beneficios = cursor.fetchall()  # Lista de tuplas [(id, nombre)]
         cursor.close()
         conn.close()
@@ -295,37 +293,39 @@ def servicio():
     if request.method == 'POST':
         codigo_referencia = request.form.get('codigo-referencia')
         monto = request.form.get('monto')
-        banco = request.form.get('banco')
-        beneficio_id = request.form.get('beneficio')  # ID directamente del formulario
+        banco_nombre = request.form.get('banco')
+        beneficio_id = request.form.get('beneficio')  # ID del beneficio seleccionado
 
-        if not codigo_referencia or not monto or not banco or not beneficio_id:
+        # Validar campos obligatorios
+        if not codigo_referencia or not monto or not banco_nombre or not beneficio_id:
             flash("Todos los campos son obligatorios.", "error")
-            return redirect(url_for('servicio'))
-
-        banco_id = get_banco_id(banco)
-        if not banco_id:
-            flash("Banco no válido.", "error")
             return redirect(url_for('servicio'))
 
         try:
             conn = get_connection()
             cursor = conn.cursor()
 
+            # Obtener el ID del banco
+            banco_id = get_banco_id(banco_nombre)
+            print(f"Banco seleccionado: {banco_nombre}, ID obtenido: {banco_id}")  # Depuración
+            if not banco_id:
+                flash("Banco no válido.", "error")
+                return redirect(url_for('servicio'))
+
             # Obtener el ID del usuario
-            cursor.execute("SELECT id FROM public.usuario WHERE username = %s", (username,))
+            cursor.execute("SELECT id FROM public.usuarios WHERE username = %s", (username,))
             usuario = cursor.fetchone()
             if not usuario:
                 flash("Usuario no encontrado.", "error")
                 return redirect(url_for('servicio'))
-            
-            usuario_id = usuario[0]  # Extraer ID
+            usuario_id = usuario[0]
 
             # Insertar el pago
             insert_query = """
-                INSERT INTO pagos (usuario_id, cedula, codigo_referencia, monto, banco_id, fecha, beneficio_id)
-                VALUES (%s, %s, %s, %s, %s, NOW(), %s)
+                INSERT INTO pagos (usuario_id, monto, banco_id, beneficio_id, codigo_referencia, fecha)
+                VALUES (%s, %s, %s, %s, %s, NOW())
             """
-            cursor.execute(insert_query, (usuario_id, cedula, codigo_referencia, monto, banco_id, beneficio_id))
+            cursor.execute(insert_query, (usuario_id, monto, banco_id, beneficio_id, codigo_referencia))
             conn.commit()
 
             cursor.close()
@@ -338,4 +338,4 @@ def servicio():
             flash(f"Error al registrar el pago: {str(e)}", "error")
             return redirect(url_for('servicio'))
 
-    return render_template('servicio.html', username=username, cedula=cedula, cantidad=cantidad, beneficios=beneficios)
+    return render_template('servicio.html', username=username, cedula=cedula, beneficios=beneficios)

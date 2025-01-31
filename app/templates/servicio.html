@@ -28,7 +28,15 @@
                 </div> 
                 <div class="form-group">
                     <label for="codigo-referencia">Código de Referencia:</label>
-                    <input type="text" id="codigo-referencia" name="codigo-referencia" required placeholder="Últimos seis dígitos">
+                    <input 
+                        type="text" 
+                        id="codigo-referencia" 
+                        name="codigo-referencia" 
+                        required 
+                        placeholder="Últimos seis dígitos"
+                        pattern="\d{6}" 
+                        title="Debe ingresar exactamente 6 dígitos numéricos."
+                    >
                 </div>
                 <div class="form-group">
                     <label for="monto">Monto:</label>
