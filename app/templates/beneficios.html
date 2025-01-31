@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <!-- Modales para Modificar Beneficios -->
+    
     {% for beneficio in beneficios %}
     <div class="modal fade" id="modificarBeneficioModal{{ beneficio[0] }}" tabindex="-1" aria-labelledby="modificarBeneficioModalLabel{{ beneficio[0] }}" aria-hidden="true">
         <div class="modal-dialog">
@@ -129,7 +129,7 @@
     </div>
     {% endfor %}
 
-    <!-- Scripts para Bootstrap y funcionalidades -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -139,7 +139,7 @@
                 fetch(`/admin/eliminar_beneficio/${id}`, { method: 'POST' })
                     .then(response => {
                         if (response.ok) {
-                            location.reload(); // Recargar la página para reflejar los cambios
+                            location.reload();
                         } else {
                             alert("Error al desactivar el beneficio.");
                         }
@@ -152,7 +152,7 @@
                 fetch(`/admin/reactivar_beneficio/${id}`, { method: 'POST' })
                     .then(response => {
                         if (response.ok) {
-                            location.reload(); // Recargar la página para reflejar los cambios
+                            location.reload();
                         } else {
                             alert("Error al reactivar el beneficio.");
                         }
