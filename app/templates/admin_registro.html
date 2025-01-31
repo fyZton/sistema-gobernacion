@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Registro de Usuarios - Administrador</title>
+    <style>
+        .background-div {
+            background-image: url("{{ url_for('static', filename='imagenes/imagen1_v2.png') }}"); 
+            height: 400px; 
+            width: 100%; 
+            background-size: cover; 
+            background-position: cover; 
+            background-repeat: no-repeat; 
+        }
+
+        .form-control-custom {
+            height: 38px; 
+            padding: 10px; 
+        }
+
+        .d-flex select,
+        .d-flex input {
+            height: 38px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-div"></div> 
+
+    <div class="container d-flex align-items-center justify-content-center min-vh-100">
+        <div class="row w-100">
+
+            <!-- Botón para volver al dashboard -->
+        <div class="col-12 mb-3">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver al Dashboard
+            </a>
+        </div>
+            <div class="col-md-6 text-left"> 
+                <h2 class="text-primary">Registro de Usuarios</h2>
+                <p>Registra nuevos usuarios en la plataforma.</p>
+            </div>
+
+            <div class="col-md-6"> 
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Registrar Usuario</h5>
+                        <form method="POST" action="/admin/registrar_usuario">
+                            <div class="mb-3">
+                                <label for="cedula" class="form-label">Cédula</label>
+                                <div class="d-flex">
+                                    <select class="form-control form-control-sm form-control-custom" id="tipo_cedula" name="tipo_cedula" required style="width: 65px; height: 38px;">
+                                        <option value="V">V</option>
+                                        <option value="E">E</option>
+                                        <option value="J">J</option>
+                                    </select>
+                                    <input type="text" class="form-control form-control-sm form-control-custom ml-2" id="numero_cedula" name="numero_cedula" required placeholder="Número de cédula">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="apellido" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input type="text" class="form-control" id="correo" name="correo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rol" class="form-label">Rol del Usuario</label>
+                                <select class="form-control" id="rol" name="rol" required>
+                                    <option value="" disabled selected>Selecciona un rol</option>
+                                    <option value="administrador">Administrador</option>
+                                    <option value="jefe_familia">Jefe de Familia</option>
+                                    <option value="usuario_normal">Usuario Normal</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Registrar Usuario</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

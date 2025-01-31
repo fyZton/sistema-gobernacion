@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .factura-info {
+            margin-bottom: 20px;
+        }
+        .factura-info p {
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #333;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+    <script>
+        // Redirigir al dashboard después de 3 segundos
+        setTimeout(function() {
+            window.location.href = "{{ url_for('dashboard') }}";
+        }, 3000);  // 3000 milisegundos = 3 segundos
+    </script>
+</head>
+<body>
+    <h1>Factura</h1>
+    <div class="factura-info">
+        <p><strong>Número de Factura:</strong> {{ factura.id }}</p>
+        <p><strong>Fecha:</strong> {{ factura.fecha.strftime('%d/%m/%Y %H:%M:%S') }}</p>
+        <p><strong>Cliente:</strong> {{ factura.usuario_nombre }} {{ factura.usuario_apellido }}</p>
+        <p><strong>Banco:</strong> {{ factura.banco }}</p>
+        <p><strong>Beneficio:</strong> {{ factura.beneficio }}</p>
+        <p><strong>Código de Referencia:</strong> {{ factura.codigo_referencia }}</p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pago de {{ factura.beneficio }}</td>
+                <td>{{ factura.monto }} Bs.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

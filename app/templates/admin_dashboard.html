@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard del Administrador</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Botón para cerrar sesión -->
+        <div class="text-right mb-3">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+        </div>
+
+        <h1 class="text-center">Dashboard del Administrador</h1>
+
+        <!-- Botones superiores -->
+        <div class="text-right mb-3">
+            <a href="{{ url_for('admin_registro') }}" class="btn btn-success">
+                <i class="fas fa-user-plus"></i> Registrar Nuevo Usuario
+            </a>
+            <a href="{{ url_for('gestionar_beneficios') }}" class="btn btn-primary">
+                <i class="fas fa-gift"></i> Gestionar Beneficios
+            </a>
+        </div>
+
+        <!-- Sección de Usuarios -->
+        <h2>Usuarios</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario[0] }}</td>
+                        <td>{{ usuario[1] }}</td>
+                        <td>{{ usuario[2] }}</td>
+                        <td>{{ usuario[3] }}</td>
+                        <td>{{ usuario[4] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Sección de Pagos -->
+        <h2>Historial de Pagos</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Número de Referencia</th>
+                    <th>Banco</th>
+                    <th>Beneficio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pago in pagos %}
+                    <tr>
+                        <td>{{ pago[0] }}</td>
+                        <td>{{ pago[1] }}</td>
+                        <td>{{ pago[2] }} Bs.</td>
+                        <td>{{ pago[3] }}</td>
+                        <td>{{ pago[4] }}</td>
+                        <td>{{ pago[5] }}</td>
+                        <td>{{ pago[6] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Sección de Beneficios -->
+        <h2>Beneficios</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for beneficio in beneficios %}
+                    <tr>
+                        <td>{{ beneficio[0] }}</td>
+                        <td>{{ beneficio[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Sección de Bancos -->
+        <h2>Bancos</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for banco in bancos %}
+                    <tr>
+                        <td>{{ banco[0] }}</td>
+                        <td>{{ banco[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

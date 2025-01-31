@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Beneficios</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Botón para volver al dashboard -->
+        <div class="text-left mb-3">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver al Dashboard
+            </a>
+        </div>
+
+        <h1 class="text-center">Gestión de Beneficios</h1>
+
+        <!-- Botón para crear un nuevo beneficio -->
+        <div class="text-right mb-3">
+            <button class="btn btn-success" data-toggle="modal" data-target="#crearBeneficioModal">
+                <i class="fas fa-plus"></i> Crear Beneficio
+            </button>
+        </div>
+
+        <!-- Tabla de beneficios -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for beneficio in beneficios %}
+                    <tr>
+                        <td>{{ beneficio[0] }}</td>  <!-- ID -->
+                        <td>{{ beneficio[1] }}</td>  <!-- Nombre -->
+                        <td>{{ "Activo" if beneficio[2] else "Inactivo" }}</td>  <!-- Estado -->
+                        <td>
+                            {% if beneficio[2] %}  <!-- Si está activo -->
+                                <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modificarBeneficioModal{{ beneficio[0] }}">
+                                    <i class="fas fa-edit"></i> Modificar
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarBeneficio({{ beneficio[0] }})">
+                                    <i class="fas fa-trash"></i> Desactivar
+                                </button>
+                            {% else %}  <!-- Si está inactivo -->
+                                <button class="btn btn-success btn-sm" onclick="reactivarBeneficio({{ beneficio[0] }})">
+                                    <i class="fas fa-check"></i> Reactivar
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para Crear Beneficio -->
+    <div class="modal fade" id="crearBeneficioModal" tabindex="-1" aria-labelledby="crearBeneficioModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearBeneficioModalLabel">Crear Nuevo Beneficio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCrearBeneficio" method="POST" action="/admin/crear_beneficio">
+                        <div class="form-group">
+                            <label for="nombreBeneficio">Nombre del Beneficio</label>
+                            <input type="text" class="form-control" id="nombreBeneficio" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estadoBeneficio">Estado</label>
+                            <select class="form-control" id="estadoBeneficio" name="activo" required>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" form="formCrearBeneficio" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales para Modificar Beneficios -->
+    {% for beneficio in beneficios %}
+    <div class="modal fade" id="modificarBeneficioModal{{ beneficio[0] }}" tabindex="-1" aria-labelledby="modificarBeneficioModalLabel{{ beneficio[0] }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modificarBeneficioModalLabel{{ beneficio[0] }}">Modificar Beneficio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formModificarBeneficio{{ beneficio[0] }}" method="POST" action="/admin/modificar_beneficio/{{ beneficio[0] }}">
+                        <div class="form-group">
+                            <label for="nombreBeneficio{{ beneficio[0] }}">Nombre del Beneficio</label>
+                            <input type="text" class="form-control" id="nombreBeneficio{{ beneficio[0] }}" name="nombre" value="{{ beneficio[1] }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estadoBeneficio{{ beneficio[0] }}">Estado</label>
+                            <select class="form-control" id="estadoBeneficio{{ beneficio[0] }}" name="activo" required>
+                                <option value="1" {% if beneficio[2] %}selected{% endif %}>Activo</option>
+                                <option value="0" {% if not beneficio[2] %}selected{% endif %}>Inactivo</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" form="formModificarBeneficio{{ beneficio[0] }}" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Scripts para Bootstrap y funcionalidades -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function eliminarBeneficio(id) {
+            if (confirm("¿Estás seguro de que deseas desactivar este beneficio?")) {
+                fetch(`/admin/eliminar_beneficio/${id}`, { method: 'POST' })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload(); // Recargar la página para reflejar los cambios
+                        } else {
+                            alert("Error al desactivar el beneficio.");
+                        }
+                    });
+            }
+        }
+
+        function reactivarBeneficio(id) {
+            if (confirm("¿Estás seguro de que deseas reactivar este beneficio?")) {
+                fetch(`/admin/reactivar_beneficio/${id}`, { method: 'POST' })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload(); // Recargar la página para reflejar los cambios
+                        } else {
+                            alert("Error al reactivar el beneficio.");
+                        }
+                    });
+            }
+        }
+    </script>
+</body>
+</html>
