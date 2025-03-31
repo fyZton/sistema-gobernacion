@@ -6,7 +6,7 @@ def get_connection():
         connection = pg8000.dbapi.connect(
             host="localhost",
             port=5432,
-            database="servicioComunitario",
+            database="gobernacion",
             user="postgres",
             password="1234"
         )

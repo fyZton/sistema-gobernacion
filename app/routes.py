@@ -17,6 +17,10 @@ def es_administrador():
 def home():
     return redirect(url_for('login'))
 
+@app.route('/hidrolara1')
+def hidrolara1():
+    return render_template('hidrolara1.html')
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
