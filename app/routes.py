@@ -17,9 +17,25 @@ def es_administrador():
 def home():
     return redirect(url_for('login'))
 
-@app.route('/hidrolara1')
+@app.route('/hidrolara/hidrolara1')
 def hidrolara1():
-    return render_template('hidrolara1.html')
+    return render_template('hidrolara/hidrolara1.html')
+
+@app.route('/hidrolara/hidrolara2')
+def hidrolara2():
+    return render_template('hidrolara/hidrolara2.html')
+
+@app.route('/hidrolara/hidrolara3')
+def hidrolara3():
+    return render_template('hidrolara/hidrolara3.html')
+
+@app.route('/hidrolara/hidrolara4')
+def hidrolara4():
+    return render_template('hidrolara/hidrolara4.html')
+
+@app.route('/hidrolara/hidrolara5')
+def hidrolara5():
+    return render_template('hidrolara/hidrolara5.html')
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():

@@ -128,7 +128,7 @@
 
     <main>
         <section id="cuadro">
-            <h2>Ingrese sus datos de pago</h2>
+            <h2>Flota</h2>
             <form action="{{ url_for('servicio') }}" method="POST">
                 <div class="form-group">
                     <label for="jefe-familia">Entidad:</label>
@@ -182,7 +182,10 @@
                         {% endfor %}
                     </select>
                 </div> -->
-                <button type="submit">Registrar Pago</button>
+                <div id="navbar">
+                    <ul id="navbar">
+                        <li><a class="active" href="{{ url_for('hidrolara4') }}"> Siguiente <i class="fa fa-home" aria-hidden="true"></i></a></li>            </ul>                
+                </div>
             </form>
         </section>
     </main>
