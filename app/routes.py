@@ -132,12 +132,18 @@ def dashboard():
             return redirect(url_for('admin_dashboard'))  # Redirigir al dashboard del administrador
         elif role == 'jefe_familia':
             return render_template('dashboard_jefe.html')
+        elif role == 'hidrolara':
+            return redirect(url_for('hidrolara_dashboard'))
         else:
             return render_template('dashboard.html')
     else:
         flash("Por favor, inicia sesión para acceder al dashboard.", "warning")
         return redirect(url_for('login'))
 
+@app.route('/hidrolara/dashboard')
+def hidrolara_dashboard():
+    return render_template('hidrolara_dashboard.html')
+    
 @app.route('/admin/dashboard')
 def admin_dashboard():
     # Verificar si el usuario es admin
