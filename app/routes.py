@@ -127,12 +127,13 @@ def login():
 def dashboard():
     if session.get('logged_in'):
         role = session.get('role')
+        print(f"Rol detectado: {role}")
 
         if role == 'admin':
-            return redirect(url_for('admin_dashboard'))  # Redirigir al dashboard del administrador
+            return redirect(url_for('admin_dashboard'))
         elif role == 'jefe_familia':
             return render_template('dashboard_jefe.html')
-        elif role == 'hidrolara':
+        elif role == 'hidrolara':  # <--- Ahora está dentro del bloque
             return redirect(url_for('hidrolara_dashboard'))
         else:
             return render_template('dashboard.html')
