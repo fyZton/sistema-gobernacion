@@ -236,7 +236,7 @@ def get_banco_id(banco_nombre):
         print(f"Error al obtener el ID del banco: {e}")
         return None
     
-@app.route('/servicio', methods=['GET', 'POST'])
+@app.route('/hidrolara/servicio', methods=['GET', 'POST'])
 def servicio():
     username = session.get('username')
     cedula = session.get('numero_cedula')
@@ -262,7 +262,7 @@ def servicio():
         # campos obligatorios
         if not codigo_referencia or not monto or not banco_nombre or not beneficio_id:
             flash("Todos los campos son obligatorios.", "error")
-            return redirect(url_for('servicio'))
+            return redirect(url_for('hidrolara/servicio'))
 
         try:
             conn = get_connection()
@@ -272,14 +272,14 @@ def servicio():
             banco_id = get_banco_id(banco_nombre)
             if not banco_id:
                 flash("Banco no válido.", "error")
-                return redirect(url_for('servicio'))
+                return redirect(url_for('hidrolara/servicio'))
 
             
             cursor.execute("SELECT id FROM public.usuarios WHERE username = %s", (username,))
             usuario = cursor.fetchone()
             if not usuario:
                 flash("Usuario no encontrado.", "error")
-                return redirect(url_for('servicio'))
+                return redirect(url_for('hidrolara/servicio'))
             usuario_id = usuario[0]
 
             
@@ -300,9 +300,9 @@ def servicio():
 
         except Exception as e:
             flash(f"Error al registrar el pago: {str(e)}", "error")
-            return redirect(url_for('servicio'))
+            return redirect(url_for('hidrolara/servicio'))
 
-    return render_template('servicio.html', username=username, cedula=cedula, beneficios=beneficios)
+    return render_template('hidrolara/servicio.html', username=username, cedula=cedula, beneficios=beneficios)
 
 @app.route('/generar_factura/<int:pago_id>')
 def generar_factura(pago_id):

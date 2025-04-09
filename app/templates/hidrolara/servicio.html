@@ -122,7 +122,9 @@
         <a href="#"><img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt="">
         <div id="navbar">
             <ul id="navbar">
-                <li><a class="active" href="{{ url_for('dashboard') }}"> Volver <i class="fa fa-home" aria-hidden="true"></i></a></li>            </ul>                
+                <li><a class="active" href="{{ url_for('dashboard') }}"> Volver <i class="fa fa-home" aria-hidden="true"></i></a></li>
+                <li><a href="{{ url_for('logout') }}">Salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+            </ul>                
         </div>
     </section>
 
