@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
+    <link rel="stylesheet" href="{{ url_for('static', filename='gas.css') }}"> 
+    <title> Servicio a cancelar</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Estilo del encabezado */
+        #header {
+            background-color: #000080; /* Color de fondo */
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 999;
+            position: sticky;
+            top: 0;
+            left: 0;
+            margin-bottom: 20px;
+        }
+        
+        #navbar {
+            display: flex;
+            justify-content:space-between; /* Distribuye los elementos a los extremos */
+            margin-top: 10px;
+            padding: 0 20px; /* Añade un poco de padding a los lados */
+        }
+        
+        
+        #navbar li {
+            list-style: none;
+            padding: 0 20px;
+            position: relative;
+        }
+
+
+        #navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            background-color: #000080; /* Color de fondo del botón */
+            transition: background-color 0.3s;
+        }
+        #navbar a:hover {
+            color: #ddd; /* Color al pasar el mouse */
+        }
+    
+        /* Estilo del cuadro de formulario */
+        #cuadro {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px; /* Ancho máximo del cuadro */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group h3 {
+            margin: 0;
+            font-weight: normal;
+            color: #555;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Para incluir padding y border en el ancho total */
+        }
+
+        button {
+            background-color: #000080; /* Color de fondo del botón */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6161df; /* Color al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+    <section id="header">
+        <h1>Servicio</h1>
+        <a href="#"><img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt="">
+        <div id="navbar">
+            <ul id="navbar">
+                <li><a class="active" href="{{ url_for('dashboard') }}"> Volver <i class="fa fa-home" aria-hidden="true"></i></a></li>
+                <li><a href="{{ url_for('logout') }}">Salir <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+            </ul>                
+        </div>
+    </section>
+
+    <main>
+        <section id="cuadro">
+            <h2>Flota</h2>
+            <!--<form action="{{ url_for('servicio') }}" method="POST">
+                <div class="form-group">
+                    <label for="jefe-familia">Entidad:</label>
+                    <h3>{{ session.get('username') }}</h3>
+                </div>
+                <div class="form-group">
+                    <label for="cedula">Cédula:</label>
+                    <h3>{{ session.get('numero_cedula') }}</h3>
+                </div> -->
+                <div class="form-group">
+                    <label for="monto">activas :</label>
+                    <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
+                </div>
+                <div class="form-group">
+                    <label for="monto">Inactivo :</label>
+                    <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
+                </div>
+                
+                <div id="navbar">
+                    <ul id="navbar">
+                        <li><a class="active" href="{{ url_for('semalara4') }}"> Siguiente <i class="fa fa-home" aria-hidden="true"></i></a></li>            
+                    </ul>                
+                </div>
+                
+                
+            </form>
+        </section>
+    </main>
+</body>
+</html>

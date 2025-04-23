@@ -4,190 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
-    <link rel="stylesheet" href="{{ url_for('static', filename='gas.css') }}"> 
-    <title> Servicio a cancelar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Servicio a cancelar</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
     <style>
-        /* Estilos generales */
+        :root {
+            --primary-color: #1a4f8b;
+            --secondary-color: #e63946;
+            --glass-alpha: 0.95;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url("{{ url_for('static', filename='imagenes/lara-bg.jpg') }}") center/cover fixed;
+            font-family: 'Montserrat', sans-serif;
             color: #333;
+            min-height: 100vh;
         }
 
-        /* Estilo del encabezado */
-        #header {
-            background-color: #000080; /* Color de fondo */
-            color: white;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 999;
-            position: sticky;
-            top: 0;
-            left: 0;
-            margin-bottom: 20px;
-        }
-        
-        #navbar {
-            display: flex;
-            justify-content:space-between; /* Distribuye los elementos a los extremos */
-            margin-top: 10px;
-            padding: 0 20px; /* Añade un poco de padding a los lados */
-        }
-        
-        
-        #navbar li {
-            list-style: none;
-            padding: 0 20px;
-            position: relative;
+        .glass-header {
+            background: rgba(255, 255, 255, var(--glass-alpha)) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
 
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
 
-        #navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            background-color: #000080; /* Color de fondo del botón */
-            transition: background-color 0.3s;
+        .nav-link {
+            color: var(--primary-color) !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
         }
-        #navbar a:hover {
-            color: #ddd; /* Color al pasar el mouse */
+
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+            border-bottom-color: currentColor;
         }
-    
-        /* Estilo del cuadro de formulario */
-        #cuadro {
-            background-color: white;
+
+        .form-control-glass {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--primary-color);
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            padding: 20px;
-            max-width: 600px; /* Ancho máximo del cuadro */
+            transition: all 0.3s ease;
+            padding: 0.75rem 1rem;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
+        .form-control-glass:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px rgba(230, 57, 70, 0.3);
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group h3 {
-            margin: 0;
-            font-weight: normal;
-            color: #555;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box; /* Para incluir padding y border en el ancho total */
-        }
-
-        button {
-            background-color: #000080; /* Color de fondo del botón */
-            color: white;
+        .btn-glass-primary {
+            background: var(--primary-color);
+            color: white !important;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
             border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            width: auto;
         }
 
-        button:hover {
-            background-color: #6161df; /* Color al pasar el mouse */
+        .btn-glass-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .logo {
+            height: 60px;
+            filter: brightness(0) invert(1);
         }
     </style>
 </head>
 <body>
-    <section id="header">
-        <h1>Servicio</h1>
-        <a href="#"><img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt="">
-        <div id="navbar">
-            <ul id="navbar">
-                <li><a class="active" href="{{ url_for('dashboard') }}"> Volver <i class="fa fa-home" aria-hidden="true"></i></a></li>            </ul>                
+    <header class="glass-header py-3 sticky-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt="Logo">
+            <nav>
+                <a href="{{ url_for('dashboard') }}" class="btn-glass-primary">
+                    <i class="fa fa-home mr-2"></i>Volver
+                </a>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <main>
-        <section id="cuadro">
-            <h2>Sistemas de bombeos</h2>
+    <main class="container">
+        <div class="glass-card">
+            <h2 class="text-center text-primary mb-4">Sistemas de bombeos</h2>
             <form action="{{ url_for('servicio') }}" method="POST">
                 <div class="form-group">
-                    <label for="jefe-familia">Entidad:</label>
-                    <h3>{{ session.get('username') }}</h3>
+                    <label class="text-secondary">Entidad:</label>
+                    <h3 class="mb-3">{{ session.get('username') }}</h3>
                 </div>
                 <div class="form-group">
-                    <label for="cedula">Cédula:</label>
-                    <h3>{{ session.get('numero_cedula') }}</h3>
-                </div> 
-                <!-- <div class="form-group">
-                    <label for="codigo-referencia">Código de Referencia:</label>
-                    <input 
-                        type="text" 
-                        id="codigo-referencia" 
-                        name="codigo-referencia" 
-                        required 
-                        placeholder="Últimos seis dígitos"
-                        pattern="\d{6}" 
-                        title="Debe ingresar exactamente 6 dígitos numéricos."
-                    >
-                </div> -->
+                    <label class="text-secondary">Cédula:</label>
+                    <h3 class="mb-4">{{ session.get('numero_cedula') }}</h3>
+                </div>
+
                 <div class="form-group">
-                    <label for="monto">Activo:</label>
-                    <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
+                    <label class="text-secondary">Activo:</label>
+                    <input type="text" 
+                           class="form-control-glass"
+                           required 
+                           placeholder="Monto en bolívares">
                 </div>
                 <div class="form-group">
-                    <label for="monto">Inactivo:</label>
-                    <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
+                    <label class="text-secondary">Inactivo:</label>
+                    <input type="text" 
+                           class="form-control-glass"
+                           required 
+                           placeholder="Monto en bolívares">
                 </div>
-                <!-- <div class="form-group">
-                    <label for="banco">Seleccione el banco:</label>
-                    <select id="banco" name="banco" required>
-                        <option value="">Seleccione un banco</option>
-                        <option value="Banco de Venezuela (0102)">Banco de Venezuela (0102)</option>
-                        <option value="Banco del Tesoro (0163)">Banco del Tesoro (0163)</option>
-                        <option value="Banco Bicentenario (0175)">Banco Bicentenario (0175)</option>
-                        <option value="BBVA Provincial (0108)">BBVA Provincial (0108)</option>
-                        <option value="Banco Mercantil (0105)">Banco Mercantil (0105)</option>
-                        <option value="Banesco (0134)">Banesco (0134)</option>
-                        <option value="BOD (0116)">BOD (0116)</option>
-                        <option value="BNC (0191)">BNC (0191)</option>
-                        <option value="Banco Exterior (0115)">Banco Exterior (0115)</option>
-                        <option value="Banco del Caribe (0104)">Banco del Caribe (0104)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="beneficio">Beneficios disponibles:</label>
-                    <select name="beneficio" required>
-                        {% for beneficio in beneficios %}
-                            <option value="{{ beneficio[0] }}">{{ beneficio[1] }}</option>
-                        {% endfor %}
-                    </select>
-                </div> -->
-                <div id="navbar">
-                    <ul id="navbar">
-                        <li><a class="active" href="{{ url_for('hidrolara2') }}"> Siguiente <i class="fa fa-home" aria-hidden="true"></i></a></li>            </ul>                
+
+                <div class="text-right mt-4">
+                    <a href="{{ url_for('hidrolara2') }}" class="btn-glass-primary">
+                        Siguiente <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
             </form>
-        </section>
+        </div>
     </main>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
