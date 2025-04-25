@@ -36,6 +36,18 @@ def hidrolara4():
 @app.route('/hidrolara/hidrolara5')
 def hidrolara5():
     return render_template('hidrolara/hidrolara5.html')
+#INECOLARA
+@app.route('/inecolara/actividades')
+def actividades():
+    return render_template('inecolara/actividades.html')
+
+@app.route('/inecolara/flota')
+def flota():
+    return render_template('inecolara/flota.html')
+
+@app.route('/inecolara/fuerzaLaboral')
+def fuerzaLaboral():
+    return render_template('inecolara/fuerzaLaboral.html')
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -135,6 +147,8 @@ def dashboard():
             return render_template('dashboard_jefe.html')
         elif role == 'hidrolara':  # <--- Ahora está dentro del bloque
             return redirect(url_for('hidrolara_dashboard'))
+        elif role == 'inecolara':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('actividades'))
         else:
             return render_template('dashboard.html')
     else:
@@ -384,6 +398,7 @@ def admin_registro():
             
             cursor.execute("SELECT id FROM roles WHERE nombre = %s", (rol,))
             rol_result = cursor.fetchone()
+            print("Resultado de la consulta del rol:", rol_result) #debug
             if not rol_result:
                 flash("Error: No se encontró el rol.", "danger")
                 return redirect(url_for('admin_registro'))
@@ -403,7 +418,7 @@ def admin_registro():
 
         except Exception as e:
             flash(f"Error al registrar usuario: {e}", "danger")
-            connection.rollback()
+            connection.rollback() 
         finally:
             connection.close()
 
