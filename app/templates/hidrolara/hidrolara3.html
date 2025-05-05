@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-    <title>Registro de Flota</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-color: #1a4f8b;
@@ -20,17 +19,14 @@
             font-family: 'Montserrat', sans-serif;
             color: #333;
             min-height: 100vh;
-            margin: 0;
+
         }
 
         .glass-header {
             background: rgba(255, 255, 255, var(--glass-alpha)) !important;
             backdrop-filter: blur(12px);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .glass-card {
@@ -43,29 +39,25 @@
             max-width: 600px;
         }
 
-        .nav-button {
-            background: var(--primary-color);
-            color: white !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+        .nav-link {
+            color: var(--primary-color) !important;
+            font-weight: 600;
             transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none !important;
+            border-bottom: 2px solid transparent;
         }
 
-        .nav-button:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+            border-bottom-color: currentColor;
         }
 
         .form-control-glass {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid var(--primary-color);
             border-radius: 8px;
-            padding: 0.75rem 1rem;
+
             transition: all 0.3s ease;
+            padding: 0.75rem 1rem;
         }
 
         .form-control-glass:focus {
@@ -73,36 +65,34 @@
             box-shadow: 0 0 8px rgba(230, 57, 70, 0.3);
         }
 
-        .logo-header {
+        .btn-glass-primary {
+            background: var(--primary-color);
+            color: white !important;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.3s ease;
+            width: auto;
+        }
+
+        .btn-glass-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .logo {
             height: 60px;
             filter: brightness(0) invert(1);
         }
-
-        .section-title {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .user-info {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
     </style>
-</head>
+</head></head>
 <body>
-    <header class="glass-header">
-        <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;" class="d-flex justify-content-between align-items-center">
-            <img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" 
-                 class="logo-header" 
-                 alt="Logo Gobernación">
-            
+    <header class="glass-header py-3 sticky-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt="Logo">
             <nav>
-                <a href="{{ url_for('dashboard') }}" class="nav-button">
-                    <i class="fas fa-home"></i>
-                    Volver al Dashboard
+                <a href="{{ url_for('dashboard') }}" class="btn-glass-primary">
+                    <i class="fa fa-home mr-2"></i>Volver
                 </a>
             </nav>
         </div>
@@ -136,12 +126,15 @@
                            placeholder="Ingrese cantidad">
                 </div>
 
-                <div class="form-group" style="margin-top: 2rem;">
-                    <a href="{{ url_for('hidrolara4') }}" class="nav-button" style="width: 100%; justify-content: center;">
-                        Siguiente Paso
-                        <i class="fas fa-arrow-right"></i>
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{{ url_for('hidrolara2') }}" class="btn-glass-primary">
+                        Atrás <i class="fa fa-arrow-left ml-2"></i>
+                    </a>
+                    <a href="{{ url_for('hidrolara4') }}" class="btn-glass-primary">
+                        Siguiente <i class="fa fa-arrow-right ml-2"></i>
                     </a>
                 </div>
+
             </form>
         </div>
     </main>

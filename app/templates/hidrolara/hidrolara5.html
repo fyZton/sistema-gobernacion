@@ -46,15 +46,15 @@
         .btn-glass {
             background: var(--primary-color);
             color: white !important;
-            padding: 0.75rem 2rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
             border: none;
             transition: all 0.3s ease;
-            width: 100%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         .btn-glass:hover {
@@ -68,11 +68,14 @@
             border-radius: 8px;
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
         }
 
         .form-control-glass:focus {
             border-color: var(--secondary-color);
             box-shadow: 0 0 8px rgba(230, 57, 70, 0.3);
+            outline: none;
         }
 
         .logo-header {
@@ -91,6 +94,9 @@
             color: var(--primary-color);
             margin: 0.5rem 0;
             font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .section-title {
@@ -98,6 +104,13 @@
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 600;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
         }
     </style>
 </head>
@@ -159,10 +172,15 @@
                               placeholder="Detalles adicionales"></textarea>
                 </div>
 
-                <div style="margin-top: 2rem;">
+                <div class="button-container">
+                    <a href="{{ url_for('hidrolara4') }}" class="btn-glass">
+                        <i class="fas fa-arrow-left"></i>
+                        Atrás
+                    </a>
+                    
                     <button type="submit" class="btn-glass">
-                        <i class="fas fa-paper-plane"></i>
                         Generar Reporte
+                        <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </form>

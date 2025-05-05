@@ -66,11 +66,14 @@
             border-radius: 8px;
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
         }
 
         .form-control-glass:focus {
             border-color: var(--secondary-color);
             box-shadow: 0 0 8px rgba(230, 57, 70, 0.3);
+            outline: none;
         }
 
         .logo-header {
@@ -96,6 +99,34 @@
             color: var(--primary-color);
             font-size: 1.1rem;
             margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn-glass-primary {
+            background: var(--primary-color);
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-glass-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -149,9 +180,13 @@
                            placeholder="Ingrese cantidad">
                 </div>
 
-                <div style="margin-top: 2rem;">
-                    <a href="{{ url_for('hidrolara5') }}" class="nav-button" style="width: 100%; justify-content: center;">
-                        Continuar
+                <div class="button-container">
+                    <a href="{{ url_for('hidrolara3') }}" class="btn-glass-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        Atrás
+                    </a>
+                    <a href="{{ url_for('hidrolara5') }}" class="btn-glass-primary">
+                        Siguiente
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
