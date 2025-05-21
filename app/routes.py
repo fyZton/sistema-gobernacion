@@ -49,6 +49,31 @@ def flota():
 def fuerzaLaboral():
     return render_template('inecolara/fuerzaLaboral.html')
 
+#semalara
+@app.route('/semalara/semalara0')
+def semalara0():
+    return render_template('semalara/semalara0.html')
+
+@app.route('/semalara/semalara1')
+def semalara1():
+    return render_template('semalara/semalara1.html')
+
+@app.route('/semalara/semalara2')
+def semalara2():
+    return render_template('semalara/semalara2.html')
+
+@app.route('/semalara/semalara3')
+def semalara3():
+    return render_template('semalara/semalara3.html')
+
+@app.route('/semalara/semalara4')
+def semalara4():
+    return render_template('semalara/semalara4.html')
+
+@app.route('/semalara/semalara5')
+def semalara5():
+    return render_template('semalara/semalara5.html')
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
@@ -149,6 +174,8 @@ def dashboard():
             return redirect(url_for('hidrolara_dashboard'))
         elif role == 'inecolara':  # <--- Ahora está dentro del bloque
             return redirect(url_for('actividades'))
+        elif role == 'semalara':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('semalara0'))
         else:
             return render_template('dashboard.html')
     else:

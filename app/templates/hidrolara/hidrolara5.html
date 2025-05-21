@@ -16,16 +16,20 @@
 
         body {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                        url("{{ url_for('static', filename='imagenes/lara-bg.jpg') }}") center/cover fixed;
+                        url("{{ url_for('static', filename='imagenes/lara-bg.jpg') }}") center/cover fixed no-repeat;
             font-family: 'Montserrat', sans-serif;
             color: #333;
             min-height: 100vh;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .glass-header {
-            background: rgba(255, 255, 255, var(--glass-alpha)) !important;
+            background: rgba(255, 255, 255, var(--glass-alpha));
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
             position: sticky;
@@ -37,29 +41,49 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             margin: 2rem auto;
             max-width: 600px;
+            width: 90%;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .form-content {
+            width: 100%;
+            max-width: 500px;
         }
 
         .btn-glass {
             background: var(--primary-color);
-            color: white !important;
+            color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
             border: none;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             text-decoration: none;
             cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 200px;
         }
 
         .btn-glass:hover {
             background: var(--secondary-color);
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .form-control-glass {
@@ -70,6 +94,8 @@
             transition: all 0.3s ease;
             width: 100%;
             margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
         }
 
         .form-control-glass:focus {
@@ -81,6 +107,7 @@
         .logo-header {
             height: 60px;
             filter: brightness(0) invert(1);
+            max-width: 100%;
         }
 
         .user-info {
@@ -88,6 +115,8 @@
             border-radius: 10px;
             padding: 1rem;
             margin-bottom: 1.5rem;
+            text-align: center;
+            width: 100%;
         }
 
         .info-text {
@@ -96,6 +125,7 @@
             font-size: 1.1rem;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
@@ -104,6 +134,7 @@
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 600;
+            font-size: 1.5rem;
         }
 
         .button-container {
@@ -111,6 +142,52 @@
             justify-content: space-between;
             margin-top: 2rem;
             gap: 1rem;
+            width: 100%;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 1.5rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-glass {
+                max-width: 100%;
+            }
+
+            .info-text {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -119,7 +196,8 @@
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;" class="d-flex justify-content-between align-items-center">
             <img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" 
                  class="logo-header" 
-                 alt="Logo Gobernación">
+                 alt="Logo Gobernación"
+                 loading="lazy">
             
             <nav>
                 <a href="{{ url_for('dashboard') }}" class="btn-glass" style="width: auto;">
@@ -130,60 +208,68 @@
         </div>
     </header>
 
-    <main>
+    <main style="flex: 1; display: flex; align-items: center; justify-content: center;">
         <div class="glass-card">
-            <h2 class="section-title">Planificación Diaria Operativa</h2>
-            
-            <div class="user-info">
-                <div class="info-text">
-                    <i class="fas fa-building"></i>
-                    Entidad: {{ session.get('username') }}
+            <div class="form-container">
+                <h1 class="section-title">Planificación Diaria Operativa</h1>
+                
+                <div class="user-info">
+                    <div class="info-text">
+                        <i class="fas fa-building"></i>
+                        <span>Entidad: {{ session.get('username') }}</span>
+                    </div>
+                    <div class="info-text">
+                        <i class="fas fa-id-card"></i>
+                        <span>Cédula: {{ session.get('numero_cedula') }}</span>
+                    </div>
                 </div>
-                <div class="info-text">
-                    <i class="fas fa-id-card"></i>
-                    Cédula: {{ session.get('numero_cedula') }}
+
+                <div class="form-content">
+                    <form action="{{ url_for('servicio') }}" method="POST">
+                        <div class="form-group">
+                            <label for="recursos">Recursos Asignados:</label>
+                            <input type="text" 
+                                   class="form-control-glass"
+                                   id="recursos"
+                                   name="recursos"
+                                   required
+                                   placeholder="Ingrese recursos asignados">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activos">Personal Activo:</label>
+                            <input type="number" 
+                                   class="form-control-glass"
+                                   id="activos"
+                                   name="activos"
+                                   required
+                                   min="0"
+                                   placeholder="Cantidad de personal">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones:</label>
+                            <textarea class="form-control-glass" 
+                                      id="observaciones"
+                                      rows="5"
+                                      name="observaciones"
+                                      placeholder="Detalles adicionales"></textarea>
+                        </div>
+
+                        <div class="button-container">
+                            <a href="{{ url_for('hidrolara4') }}" class="btn-glass">
+                                <i class="fas fa-arrow-left"></i>
+                                Atrás
+                            </a>
+                            
+                            <button type="submit" class="btn-glass">
+                                Generar Reporte
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <form action="{{ url_for('servicio') }}" method="POST">
-                <div class="form-group">
-                    <label>Recursos Asignados:</label>
-                    <input type="text" 
-                           class="form-control-glass"
-                           name="recursos"
-                           required
-                           placeholder="Ingrese recursos asignados">
-                </div>
-
-                <div class="form-group">
-                    <label>Personal Activo:</label>
-                    <input type="number" 
-                           class="form-control-glass"
-                           name="activos"
-                           required
-                           placeholder="Cantidad de personal">
-                </div>
-
-                <div class="form-group">
-                    <label>Observaciones:</label>
-                    <textarea class="form-control-glass" 
-                              rows="3"
-                              name="observaciones"
-                              placeholder="Detalles adicionales"></textarea>
-                </div>
-
-                <div class="button-container">
-                    <a href="{{ url_for('hidrolara4') }}" class="btn-glass">
-                        <i class="fas fa-arrow-left"></i>
-                        Atrás
-                    </a>
-                    
-                    <button type="submit" class="btn-glass">
-                        Generar Reporte
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </form>
         </div>
     </main>
 </body>

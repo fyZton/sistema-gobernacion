@@ -74,11 +74,7 @@
             justify-content: space-between;
         }
         
-        .logo {
-            height: 50px;
-            width: auto;
-            object-fit: contain;
-        }
+         
         
         /* Navegación mejorada */
         .main-nav {
@@ -359,10 +355,9 @@
                 </div>
                 
                 <div class="form-group action-nav">
-                    <button type="submit" class="btn">
-                        <span>Siguiente</span>
-                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                    </button>
+                    <a href="{{ url_for('semalara1') }}" class="btn-glass-primary">
+                        Siguiente <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
             </form>
         </section>

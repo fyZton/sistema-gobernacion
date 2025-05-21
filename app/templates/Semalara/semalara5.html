@@ -149,10 +149,16 @@
                     <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
                 </div>
                 
-                <div id="navbar">
-                    <ul id="navbar">
-                        <li><a class="active" href="{{ url_for('semalara3') }}"> Siguiente <i class="fa fa-home" aria-hidden="true"></i></a></li>            
-                    </ul>                
+                <div class="button-container">
+                    <a href="{{ url_for('semalara4') }}" class="btn-glass">
+                        <i class="fas fa-arrow-left"></i>
+                        Atrás
+                    </a>
+                    
+                    <button type="submit" class="btn-glass">
+                        Generar Reporte
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </form>
         </section>
