@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
     <link rel="stylesheet" href="{{ url_for('static', filename='gas.css') }}"> 
-    <title> Servicio a cancelar</title>
+    <title>Servicio a cancelar</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
     <style>
         /* Estilos generales */
@@ -35,18 +35,16 @@
         
         #navbar {
             display: flex;
-            justify-content:space-between; /* Distribuye los elementos a los extremos */
+            justify-content: space-between; /* Distribuye los elementos a los extremos */
             margin-top: 10px;
             padding: 0 20px; /* Añade un poco de padding a los lados */
         }
-        
         
         #navbar li {
             list-style: none;
             padding: 0 20px;
             position: relative;
         }
-
 
         #navbar a {
             color: white;
@@ -56,6 +54,7 @@
             background-color: #000080; /* Color de fondo del botón */
             transition: background-color 0.3s;
         }
+        
         #navbar a:hover {
             color: #ddd; /* Color al pasar el mouse */
         }
@@ -114,12 +113,41 @@
         button:hover {
             background-color: #6161df; /* Color al pasar el mouse */
         }
+        
+        .d-flex {
+            display: flex;
+        }
+        
+        .justify-content-between {
+            justify-content: space-between;
+        }
+        
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+        
+        .btn-glass-primary {
+            background-color: #000080;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-glass-primary:hover {
+            background-color: #6161df;
+        }
+        
+        .ml-2 {
+            margin-left: 0.5rem;
+        }
     </style>
-
+</head>
 <body>
     <section id="header">
         <h1>Servicio</h1>
-        <a href="#"><img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt="">
+        <a href="#"><img src="{{ url_for('static', filename='imagenes/BELLA_VISTA2.png') }}" class="logo" alt=""></a>
         <div id="navbar">
             <ul id="navbar">
                 <li><a class="active" href="{{ url_for('dashboard') }}"> Volver <i class="fa fa-home" aria-hidden="true"></i></a></li>
@@ -130,8 +158,8 @@
 
     <main>
         <section id="cuadro">
-            <h2>fuerza laboral activa</h2>
-            <!--<form action="{{ url_for('servicio') }}" method="POST">
+            <h2>Fuerza laboral activa</h2>
+            <form action="{{ url_for('servicio') }}" method="POST">
                 <div class="form-group">
                     <label for="jefe-familia">Entidad:</label>
                     <h3>{{ session.get('username') }}</h3>
@@ -139,14 +167,14 @@
                 <div class="form-group">
                     <label for="cedula">Cédula:</label>
                     <h3>{{ session.get('numero_cedula') }}</h3>
-                </div> -->
-                <div class="form-group">
-                    <label for="monto">activas :</label>
-                    <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
                 </div>
                 <div class="form-group">
-                    <label for="monto">Inactivo :</label>
-                    <input type="text" id="monto" name="monto" required placeholder="Monto en bolívares">
+                    <label for="activas">Activas:</label>
+                    <input type="text" id="activas" name="activas" required placeholder="Monto en bolívares">
+                </div>
+                <div class="form-group">
+                    <label for="inactivas">Inactivas:</label>
+                    <input type="text" id="inactivas" name="inactivas" required placeholder="Monto en bolívares">
                 </div>
                 
                 <div class="d-flex justify-content-between mt-4">
@@ -161,4 +189,4 @@
         </section>
     </main>
 </body>
-</html>    
+</html>

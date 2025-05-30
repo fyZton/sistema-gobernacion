@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Actividades</title>
     <style>
         :root {
@@ -21,6 +22,7 @@
             color: #333;
             min-height: 100vh;
             margin: 0;
+            padding-bottom: 2rem;
         }
 
         .glass-header {
@@ -46,20 +48,21 @@
         .btn-glass {
             background: var(--primary-color);
             color: white !important;
-            padding: 0.75rem 2rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
             border: none;
             transition: all 0.3s ease;
-            width: 100%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            text-decoration: none;
         }
 
         .btn-glass:hover {
             background: var(--secondary-color);
             transform: translateY(-2px);
+            color: white !important;
         }
 
         .form-control-glass {
@@ -68,6 +71,8 @@
             border-radius: 8px;
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
         }
 
         .form-control-glass:focus {
@@ -99,6 +104,19 @@
             margin-bottom: 2rem;
             font-weight: 600;
         }
+
+        .action-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -109,9 +127,9 @@
                  alt="Logo Gobernación">
             
             <nav>
-                <a href="{{ url_for('dashboard') }}" class="btn-glass" style="width: auto;">
+                <a href="{{ url_for('login') }}" class="btn-glass">
                     <i class="fas fa-arrow-left"></i>
-                    Volver al Inicio
+                    salir
                 </a>
             </nav>
         </div>
@@ -153,21 +171,24 @@
 
                 <div class="form-group">
                     <label>Observaciones:</label>
-                    <input type="text"
-                            class="form-control-glass" 
+                    <textarea class="form-control-glass" 
                               name="observaciones"
                               required
-                              placeholder="Detalles adicionales"></textarea>
+                              placeholder="Detalles adicionales"
+                              rows="3"></textarea>
                 </div>
 
-                <div style="margin-top: 2rem;">
-                    <button type="submit" class="btn-glass">
-                        <i class="fas fa-paper-plane"></i>
-                        Generar Reporte
-                    </button>
+                <div class="action-nav">
+                    <a href="{{ url_for('flota') }}" class="btn-glass">
+                        <i class="fas fa-arrow-left"></i>
+                        Siguiente
                 </div>
             </form>
         </div>
     </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
