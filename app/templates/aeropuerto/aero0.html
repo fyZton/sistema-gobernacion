@@ -4,65 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Sistema de gestión de niveles de combustible">
+    <meta name="description" content="Sistema de gestión de vuelos">
     
     <!-- Preconexión para mejorar performance -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
     <!-- Fuentes e iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
-    <link rel="stylesheet" href="{{ url_for('static', filename='gas.css') }}"> 
     
-    <title>Aeropuerto</title>
+    <title>Sistema Aeropuerto</title>
     
-    <!-- InputMask para formatos -->
+    <!-- InputMask para formatos (opcional) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
     
     <style>
         :root {
-            --primary-color: #000080;
-            --primary-hover: #6161df;
-            --secondary-color: #f4f4f4;
+            --primary-color: #1a237e;
+            --primary-hover: #303f9f;
             --text-color: #333;
-            --light-text: #ddd;
-            --border-color: #ccc;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --light-text: #fff;
+            --border-color: #ddd;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --border-radius: 8px;
             --transition: all 0.3s ease;
         }
-        
         /* Reset y estilos base */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
         body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            background-color: var(--secondary-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-        
-        /* Header mejorado */
         .main-header {
-            background-color: var(--primary-color);
+            background: linear-gradient(to right, var(--primary-color), #283593);
             color: white;
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
         }
-        
         .header-content {
             display: flex;
             align-items: center;
@@ -70,254 +62,268 @@
             width: 100%;
             justify-content: space-between;
         }
-        
         .logo {
             height: 60px;
-            width: auto;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7));
         }
-        
-        /* Navegación mejorada */
         .main-nav {
             display: flex;
             align-items: center;
         }
-        
         .nav-list {
             display: flex;
             list-style: none;
             gap: 1rem;
-            margin: 0;
-            padding: 0;
         }
-        
-        .nav-item {
-            position: relative;
-        }
-        
         .nav-link {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            background-color: var(--primary-color);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.15);
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-weight: 500;
         }
-        
-        .nav-link:hover, 
-        .nav-link:focus {
-            color: var(--light-text);
-            background-color: var(--primary-hover);
-            outline: none;
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
         }
-        
-        .nav-link i {
-            font-size: 1rem;
-        }
-        
-        /* Contenido principal */
         .main-content {
             flex: 1;
             padding: 2rem 1rem;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             width: 100%;
         }
-        
-        /* Tarjeta de formulario */
         .form-card {
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            margin: 0 auto;
             padding: 2rem;
-            max-width: 600px;
-            width: 100%;
+            animation: fadeIn 0.6s ease-out;
         }
-        
         .form-title {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             color: var(--primary-color);
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 1rem;
+            font-size: 1.8rem;
         }
-        
         .form-title::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--primary-color);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), #5c6bc0);
+            border-radius: 2px;
         }
-        
-        /* Grupos de formulario */
         .form-group {
             margin-bottom: 1.25rem;
+            background-color: #f9f9ff;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
         }
-        
+        .form-group:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: bold;
+            font-weight: 600;
             color: var(--primary-color);
+            font-size: 1.1rem;
         }
-        
-        .form-value {
-            margin: 0;
-            font-weight: normal;
-            color: #555;
-            padding: 0.5rem;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-        }
-        
         .form-input {
-            width: 100%;
-            padding: 0.75rem;
+            width: calc(100% - 1rem);
+            padding: 0.85rem;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1rem;
             transition: var(--transition);
+            background-color: #fff;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0.5rem;
         }
-        
         .form-input:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 0, 128, 0.2);
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.2);
         }
-        
-        .form-select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 1rem;
-            background-color: white;
-            cursor: pointer;
-        }
-        
-        /* Botones */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            background-color: var(--primary-color);
+            background: linear-gradient(to right, var(--primary-color), #3949ab);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 1rem;
             transition: var(--transition);
-            text-decoration: none;
+            font-weight: 600;
         }
-        
-        .btn:hover, 
-        .btn:focus {
-            background-color: var(--primary-hover);
-            outline: none;
+        .btn:hover {
+            background: linear-gradient(to right, var(--primary-hover), #303f9f);
+            transform: translateY(-2px);
         }
-        
-        .btn i {
-            font-size: 1rem;
-        }
-        
-        /* Navegación de acciones */
-        .action-nav {
-            display: flex;
-            justify-content: flex-end;
+        .data-section {
             margin-top: 2rem;
         }
-        
-        /* Clase para screen readers */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
-        
-        /* Texto de ayuda en formularios */
-        .form-text {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.875rem;
-            color: #666;
+        .section-title i {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
         }
-        
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .main-nav {
-                width: 100%;
-            }
-            
-            .nav-list {
-                justify-content: space-between;
-                width: 100%;
-            }
-            
-            .form-card {
-                padding: 1.5rem;
-            }
+        .flight-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.75rem;
         }
-        
-        @media (max-width: 480px) {
-            .main-header {
-                padding: 1rem;
-            }
-            
-            .nav-list {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .nav-link {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .action-nav {
-                justify-content: center;
-            }
+        .flight-row span {
+            min-width: 120px;
+            font-weight: 500;
+        }
+        #airlines-list-display {
+            list-style: none;
+            margin-top: 0.75rem;
+            padding-left: 1rem;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        #airlines-list-display li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #eef1fa;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        #airlines-list-display button {
+            background: transparent;
+            border: none;
+            color: #c62828;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        /* Estilos de resumen */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .data-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 3px solid var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .data-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .card-icon {
+            background: linear-gradient(135deg, var(--primary-color), #5c6bc0);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .card-label {
+            font-weight: 500;
+            color: #555;
+        }
+        .card-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <header class="main-header" role="banner">
+    <header class="main-header">
         <div class="header-content">
-            <h1 class="sr-only">Sistema de Gestión de Combustible</h1>
+            <h1 class="sr-only">Sistema de Gestión de Vuelos</h1>
             <a href="#" aria-label="Página de inicio">
-                <img src="{{ url_for('static', filename='imagenes/lara_22.jpg') }}" class="logo" alt="Gobernación del estado Lara"> 
+                <img src="{{ url_for('static', filename='imagenes/lara_22.jpg') }}" class="logo" alt="Gobernación del estado Lara">
             </a>
-            
-            <nav class="main-nav" aria-label="Navegación principal">
+            <nav class="main-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="{{ url_for('dashboard') }}" class="nav-link" aria-label="Volver al dashboard">
-                            <i class="fas fa-home" aria-hidden="true"></i>
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">
+                            <i class="fas fa-home"></i>
                             <span>Volver</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('logout') }}" class="nav-link" aria-label="Cerrar sesión">
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                        <a href="{{ url_for('logout') }}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
                             <span>Salir</span>
                         </a>
                     </li>
@@ -326,143 +332,462 @@
         </div>
     </header>
 
-    <main class="main-content" role="main">
+    <main class="main-content">
         <section class="form-card">
             <h2 class="form-title">PRUEBA AEROPUERTO</h2>
             
-            <form id="fuel-form" action="{{ url_for('servicio') }}" method="POST" novalidate>
+            <form id="flight-form" action="{{ url_for('servicio') }}" method="POST" novalidate>
                 <div class="form-group">
                     <label for="entity" class="form-label">Entidad:</label>
-                    <p id="entity" class="form-value">{{ session.get('username') }}</p>
+                    <p id="entity" class="form-input">{{ session.get('username') }}</p>
                 </div>
-                
                 <div class="form-group">
                     <label for="id-number" class="form-label">Cédula:</label>
-                    <p id="id-number" class="form-value">{{ session.get('numero_cedula') }}</p>
-                </div> 
-                
-                <div class="form-group">
-                    <label for="fuel-level" class="form-label">Aerolineas activas</label>
-                    <input type="number" 
-                           id="fuel-level" 
-                           name="fuel-level" 
-                           class="form-input" 
-                           required 
-                           placeholder="Ingrese el nivel actual"
-                           min="0"
-                           max="100"
-                           step="0.01"
-                           aria-describedby="fuel-level-help">
-                    <small id="fuel-level-help" class="form-text">Ingrese el porcentaje actual de combustible (0-100%)</small>
+                    <p id="id-number" class="form-input">{{ session.get('numero_cedula') }}</p>
                 </div>
-                
-                <div class="form-group">
-                    <label for="liters" class="form-label">Vuelos nacionales</label>
-                    <input type="number" 
-                           id="liters" 
-                           name="liters" 
-                           class="form-input" 
-                           required 
-                           placeholder="Cantidad en litros"
-                           min="0"
-                           step="0.01">
+
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-plane"></i>
+                        Información de Vuelos
+                    </h3>
+
+                    <!-- Aerolíneas Activas -->
+                    <div class="form-group" id="airlines-group">
+                        <label for="airline-input" class="form-label">Aerolíneas Activas</label>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <input type="text"
+                                   id="airline-input"
+                                   class="form-input"
+                                   placeholder="Nombre de aerolínea"
+                                   aria-describedby="airlines-help">
+                            <button type="button" id="add-airline" class="btn">
+                                <i class="fas fa-plus"></i> Agregar
+                            </button>
+                        </div>
+                        <small id="airlines-help" class="form-text">
+                            Escribe el nombre y haz clic en “Agregar”. Puedes añadir varias.
+                        </small>
+                        <ul id="airlines-list-display"></ul>
+                        <div style="margin-top: 0.75rem;">
+                            <strong>Total Aerolíneas Activas: </strong>
+                            <span id="airlines-count">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Vuelos Nacionales por Aerolínea -->
+                    <div class="form-group">
+                        <label class="form-label">Vuelos Nacionales por Aerolínea</label>
+                        <small class="form-text">Para cada aerolínea, ingresa la cantidad de vuelos y los destinos.</small>
+                        <div id="nacionales-container"></div>
+                        <div style="margin-top: 0.5rem;">
+                            <strong>Contador Nacional Total: </strong>
+                            <span id="counter-nacionales">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Vuelos Internacionales por Aerolínea -->
+                    <div class="form-group">
+                        <label class="form-label">Vuelos Internacionales por Aerolínea</label>
+                        <small class="form-text">Para cada aerolínea, ingresa la cantidad de vuelos y los destinos.</small>
+                        <div id="internacionales-container"></div>
+                        <div style="margin-top: 0.5rem;">
+                            <strong>Contador Internacional Total: </strong>
+                            <span id="counter-internacionales">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Total de Vuelos -->
+                    <div class="form-group">
+                        <label for="total-vuelos" class="form-label">Total de Vuelos</label>
+                        <input type="number"
+                               id="total-vuelos"
+                               name="total-vuelos"
+                               class="form-input"
+                               readonly
+                               placeholder="Se calcula automáticamente">
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="union-amount" class="form-label">Vuelos internacionales</label>
-                    <input type="number" 
-                           id="union-amount" 
-                           name="union-amount" 
-                           class="form-input" 
-                           required 
-                           placeholder="Monto sindical"
-                           min="0"
-                           step="0.01">
-                </div>
-                
-                <div class="form-group action-nav">
+
+                <div class="form-group" style="display: flex; justify-content: flex-end; gap: 1rem;">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
                     <a href="{{ url_for('aero1') }}" class="btn">
-                        Siguiente <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        <i class="fas fa-arrow-right"></i> Siguiente
                     </a>
                 </div>
             </form>
         </section>
+
+        <section class="data-section">
+            <h3 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Resumen de Operaciones
+            </h3>
+            <div class="data-grid">
+                <!-- Resumen de Aerolíneas -->
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-plane"></i></div>
+                        <div class="card-title">Aerolíneas</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Total Aerolíneas Activas:</span>
+                            <span class="card-value" id="summary-airlines-count">0</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Listado de Aerolíneas:</span>
+                            <span class="card-value" id="summary-airlines-list">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen de Vuelos Nacionales -->
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-flag-usa"></i></div>
+                        <div class="card-title">Vuelos Nacionales</div>
+                    </div>
+                    <div class="card-content" id="summary-nacionales-content">
+                        <div class="card-row">
+                            <span class="card-label">Total Nacional:</span>
+                            <span class="card-value" id="summary-nacionales">0</span>
+                        </div>
+                        <!-- Aquí se agregarán filas adicionales de detalle -->
+                    </div>
+                </div>
+
+                <!-- Resumen de Vuelos Internacionales -->
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-globe"></i></div>
+                        <div class="card-title">Vuelos Internacionales</div>
+                    </div>
+                    <div class="card-content" id="summary-internacionales-content">
+                        <div class="card-row">
+                            <span class="card-label">Total Internacional:</span>
+                            <span class="card-value" id="summary-internacionales">0</span>
+                        </div>
+                        <!-- Aquí se agregarán filas adicionales de detalle -->
+                    </div>
+                </div>
+
+                <!-- Resumen Total de Vuelos -->
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="card-title">Total de Vuelos</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Total:</span>
+                            <span class="card-value" id="summary-total-vuelos">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <script> 
-        // Validación del formulario
-        document.getElementById('fuel-form').addEventListener('submit', function(e) {
-            const fuelLevel = document.getElementById('fuel-level');
-            const liters = document.getElementById('liters');
-            const unionAmount = document.getElementById('union-amount');
-            let isValid = true;
-            
-            // Validar nivel de combustible (0-100%)
-            if (!fuelLevel.value || parseFloat(fuelLevel.value) < 0 || parseFloat(fuelLevel.value) > 100) {
-                fuelLevel.style.borderColor = 'red';
-                isValid = false;
-                document.getElementById('fuel-level-help').style.color = 'red';
+    <script>
+        // Elementos de Aerolíneas
+        const addAirlineBtn = document.getElementById('add-airline');
+        const airlineInput = document.getElementById('airline-input');
+        const airlinesListDisplay = document.getElementById('airlines-list-display');
+        const airlinesCountSpan = document.getElementById('airlines-count');
+
+        // Contenedores de vuelos
+        const nacionalesContainer = document.getElementById('nacionales-container');
+        const internacionalesContainer = document.getElementById('internacionales-container');
+        const totalVuelosInput = document.getElementById('total-vuelos');
+
+        // Resumen
+        const summaryAirlinesCount = document.getElementById('summary-airlines-count');
+        const summaryAirlinesList = document.getElementById('summary-airlines-list');
+        const summaryNacionales = document.getElementById('summary-nacionales');
+        const summaryNacionalesContent = document.getElementById('summary-nacionales-content');
+        const summaryInternacionales = document.getElementById('summary-internacionales');
+        const summaryInternacionalesContent = document.getElementById('summary-internacionales-content');
+        const summaryTotalVuelos = document.getElementById('summary-total-vuelos');
+
+        // Estados
+        let airlinesArray = [];
+        let nacionalesData = [];       // { airline, count, dests: [] }
+        let internacionalesData = [];  // { airline, count, dests: [] }
+
+        // Función para recrear los elementos de vuelos cuando cambian las aerolíneas
+        function reconstruirCamposVuelos() {
+            nacionalesContainer.innerHTML = '';
+            internacionalesContainer.innerHTML = '';
+            // Mantener datos previos
+            const prevNacionales = [...nacionalesData];
+            const prevInternacionales = [...internacionalesData];
+            nacionalesData = [];
+            internacionalesData = [];
+
+            airlinesArray.forEach((aero, idx) => {
+                // Recuperar estado previo o inicializar
+                const prevN = prevNacionales.find(x => x.airline === aero) || { airline: aero, count: 0, dests: [] };
+                const prevI = prevInternacionales.find(x => x.airline === aero) || { airline: aero, count: 0, dests: [] };
+
+                // Construir sección de vuelos nacionales
+                const divN = document.createElement('div');
+                divN.classList.add('flight-row');
+                divN.innerHTML = `
+                    <span>${aero}</span>
+                    <input type="number"
+                           min="0"
+                           step="1"
+                           placeholder="Cantidad"
+                           class="form-input"
+                           id="nac-count-${idx}"
+                           value="${prevN.count}">
+                    <div id="nac-dests-container-${idx}" style="flex: 1;"></div>
+                `;
+                nacionalesContainer.appendChild(divN);
+                nacionalesData.push({ airline: aero, count: prevN.count, dests: [...prevN.dests] });
+
+                // Reconstruir inputs de destinos según prevN.count
+                crearDestinosInputs(idx, 'nac', prevN.count, prevN.dests);
+
+                // Construir sección de vuelos internacionales
+                const divI = document.createElement('div');
+                divI.classList.add('flight-row');
+                divI.innerHTML = `
+                    <span>${aero}</span>
+                    <input type="number"
+                           min="0"
+                           step="1"
+                           placeholder="Cantidad"
+                           class="form-input"
+                           id="int-count-${idx}"
+                           value="${prevI.count}">
+                    <div id="int-dests-container-${idx}" style="flex: 1;"></div>
+                `;
+                internacionalesContainer.appendChild(divI);
+                internacionalesData.push({ airline: aero, count: prevI.count, dests: [...prevI.dests] });
+
+                // Reconstruir inputs de destinos según prevI.count
+                crearDestinosInputs(idx, 'int', prevI.count, prevI.dests);
+            });
+
+            // Agregar eventos a los inputs de cantidad
+            agregarListenersCantidad();
+            // Actualizar resumen
+            actualizarContadoresYResumen();
+        }
+
+        // Función que crea N inputs de destino para la aerolínea idx, tipo 'nac' o 'int'
+        function crearDestinosInputs(idx, tipo, count, prevDests = []) {
+            const container = document.getElementById(`${tipo}-dests-container-${idx}`);
+            container.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const destValue = prevDests[i] || '';
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = `Destino ${i + 1}`;
+                input.classList.add('form-input');
+                input.id = `${tipo}-dest-${idx}-${i}`;
+                input.value = destValue;
+                // Nombre para Flask
+                input.name = `${tipo === 'nac' ? 'vuelos-nacionales-dest' : 'vuelos-internacionales-dest'}[]`;
+                container.appendChild(input);
             }
-            
-            // Validar litros
-            if (!liters.value || parseFloat(liters.value) <= 0) {
-                liters.style.borderColor = 'red';
-                isValid = false;
+        }
+
+        // Función para agregar listeners a inputs de cantidad
+        function agregarListenersCantidad() {
+            nacionalesData.forEach((item, idx) => {
+                const countInput = document.getElementById(`nac-count-${idx}`);
+                countInput.addEventListener('input', () => {
+                    let newCount = parseInt(countInput.value, 10);
+                    if (isNaN(newCount) || newCount < 0) newCount = 0;
+                    item.count = newCount;
+                    // Ajustar array de destinos
+                    item.dests = item.dests.slice(0, newCount);
+                    while (item.dests.length < newCount) item.dests.push('');
+                    crearDestinosInputs(idx, 'nac', newCount, item.dests);
+                    // Agregar listener a cada nuevo destino
+                    agregarListenersDestino(idx, 'nac');
+                    actualizarContadoresYResumen();
+                });
+                // Inicializar listeners de destino previos
+                agregarListenersDestino(idx, 'nac');
+            });
+
+            internacionalesData.forEach((item, idx) => {
+                const countInput = document.getElementById(`int-count-${idx}`);
+                countInput.addEventListener('input', () => {
+                    let newCount = parseInt(countInput.value, 10);
+                    if (isNaN(newCount) || newCount < 0) newCount = 0;
+                    item.count = newCount;
+                    item.dests = item.dests.slice(0, newCount);
+                    while (item.dests.length < newCount) item.dests.push('');
+                    crearDestinosInputs(idx, 'int', newCount, item.dests);
+                    agregarListenersDestino(idx, 'int');
+                    actualizarContadoresYResumen();
+                });
+                agregarListenersDestino(idx, 'int');
+            });
+        }
+
+        // Función para agregar listeners a cada input de destino según idx y tipo
+        function agregarListenersDestino(idx, tipo) {
+            const dataArray = tipo === 'nac' ? nacionalesData : internacionalesData;
+            const count = dataArray[idx].count;
+
+            for (let i = 0; i < count; i++) {
+                const destInput = document.getElementById(`${tipo}-dest-${idx}-${i}`);
+                destInput.addEventListener('input', () => {
+                    dataArray[idx].dests[i] = destInput.value.trim();
+                    actualizarContadoresYResumen();
+                });
             }
-            
-            // Validar monto sindical
-            if (!unionAmount.value || parseFloat(unionAmount.value) < 0) {
-                unionAmount.style.borderColor = 'red';
-                isValid = false;
-            }
-            
-            if (!isValid) {
-                e.preventDefault();
-                alert('Por favor complete todos los campos con valores válidos');
-            }
-        });
-        
-        // Restablecer estilos al corregir
-        document.querySelectorAll('.form-input').forEach(input => {
-            input.addEventListener('input', function() {
-                this.style.borderColor = '';
-                if (this.id === 'fuel-level') {
-                    document.getElementById('fuel-level-help').style.color = '';
+        }
+
+        // Actualiza totales y resumen completo
+        function actualizarContadoresYResumen() {
+            // Calcular totales
+            const totalNac = nacionalesData.reduce((sum, x) => sum + x.count, 0);
+            const totalInt = internacionalesData.reduce((sum, x) => sum + x.count, 0);
+            document.getElementById('counter-nacionales').innerText = totalNac;
+            document.getElementById('counter-internacionales').innerText = totalInt;
+            totalVuelosInput.value = totalNac + totalInt;
+            summaryNacionales.innerText = totalNac;
+            summaryInternacionales.innerText = totalInt;
+            summaryTotalVuelos.innerText = totalNac + totalInt;
+
+            // Reconstruir filas de detalle nacionales
+            // Primero limpiar cualquier fila anterior (excepto la primera que muestra el total)
+            summaryNacionalesContent.querySelectorAll('.card-row.detail').forEach(el => el.remove());
+            nacionalesData.forEach(item => {
+                if (item.count > 0) {
+                    const detailRow = document.createElement('div');
+                    detailRow.classList.add('card-row', 'detail');
+                    const label = document.createElement('span');
+                    label.classList.add('card-label');
+                    label.innerText = item.airline;
+                    const value = document.createElement('span');
+                    value.classList.add('card-value');
+                    const destsText = item.dests.length
+                        ? item.dests.join(', ')
+                        : '—';
+                    value.innerText = `${item.count} vuelo(s): [${destsText}]`;
+                    detailRow.appendChild(label);
+                    detailRow.appendChild(value);
+                    summaryNacionalesContent.appendChild(detailRow);
                 }
             });
+
+            // Reconstruir filas de detalle internacionales
+            summaryInternacionalesContent.querySelectorAll('.card-row.detail').forEach(el => el.remove());
+            internacionalesData.forEach(item => {
+                if (item.count > 0) {
+                    const detailRow = document.createElement('div');
+                    detailRow.classList.add('card-row', 'detail');
+                    const label = document.createElement('span');
+                    label.classList.add('card-label');
+                    label.innerText = item.airline;
+                    const value = document.createElement('span');
+                    value.classList.add('card-value');
+                    const destsText = item.dests.length
+                        ? item.dests.join(', ')
+                        : '—';
+                    value.innerText = `${item.count} vuelo(s): [${destsText}]`;
+                    detailRow.appendChild(label);
+                    detailRow.appendChild(value);
+                    summaryInternacionalesContent.appendChild(detailRow);
+                }
+            });
+        }
+
+        // Agregar aerolínea nueva
+        addAirlineBtn.addEventListener('click', () => {
+            const valor = airlineInput.value.trim();
+            if (valor && !airlinesArray.includes(valor)) {
+                airlinesArray.push(valor);
+                // Input hidden para Flask
+                const hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = 'active-airlines[]';
+                hidden.value = valor;
+                document.getElementById('flight-form').appendChild(hidden);
+                airlineInput.value = '';
+                actualizarDisplayAerolineas();
+            }
         });
-        
-        // Máscara para campos numéricos
-        Inputmask({
-            alias: 'numeric',
-            groupSeparator: '.',
-            autoGroup: true,
-            digits: 2,
-            digitsOptional: false,
-            placeholder: '0',
-            rightAlign: false
-        }).mask(document.getElementById('union-amount'));
-        
-        // Aplicar máscara también a los otros campos numéricos
-        Inputmask({
-            alias: 'numeric',
-            groupSeparator: '.',
-            autoGroup: true,
-            digits: 2,
-            digitsOptional: true,
-            placeholder: '0',
-            rightAlign: false
-        }).mask(document.getElementById('liters'));
-        
-        Inputmask({
-            alias: 'numeric',
-            groupSeparator: '.',
-            autoGroup: true,
-            digits: 2,
-            digitsOptional: true,
-            placeholder: '0',
-            rightAlign: false
-        }).mask(document.getElementById('fuel-level'));
+
+        // Eliminar aerolínea y sus datos
+        airlinesListDisplay.addEventListener('click', e => {
+            if (e.target.closest('button')) {
+                const idx = parseInt(e.target.closest('button').dataset.index, 10);
+                const removed = airlinesArray.splice(idx, 1)[0];
+                // Quitar input hidden
+                document.querySelectorAll('input[type="hidden"][name="active-airlines[]"]').forEach(inp => {
+                    if (inp.value === removed) inp.remove();
+                });
+                // Eliminar datos relacionados
+                nacionalesData = nacionalesData.filter(x => x.airline !== removed);
+                internacionalesData = internacionalesData.filter(x => x.airline !== removed);
+                actualizarDisplayAerolineas();
+            }
+        });
+
+        // Refrescar lista de aerolíneas y contadores
+        function actualizarDisplayAerolineas() {
+            airlinesListDisplay.innerHTML = '';
+            if (airlinesArray.length) {
+                airlinesArray.forEach((aero, idx) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${aero}</span>
+                        <button type="button" data-index="${idx}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>`;
+                    airlinesListDisplay.appendChild(li);
+                });
+                summaryAirlinesList.innerText = airlinesArray.join(', ');
+            } else {
+                summaryAirlinesList.innerText = '—';
+            }
+            airlinesCountSpan.innerText = airlinesArray.length;
+            summaryAirlinesCount.innerText = airlinesArray.length;
+            reconstruirCamposVuelos();
+        }
+
+        // Validación final antes de enviar
+        document.getElementById('flight-form').addEventListener('submit', function(e) {
+            let isValid = true;
+            if (!airlinesArray.length) {
+                airlineInput.style.borderColor = 'red';
+                isValid = false;
+            }
+            nacionalesData.forEach(item => {
+                if (item.count < 0 || isNaN(item.count)) isValid = false;
+            });
+            internacionalesData.forEach(item => {
+                if (item.count < 0 || isNaN(item.count)) isValid = false;
+            });
+            if (!isValid) {
+                e.preventDefault();
+                alert('Corrija los campos: asegúrese de tener al menos una aerolínea y cantidades válidas.');
+            }
+        });
+
+        // Restablecer borde rojo al corregir
+        document.addEventListener('input', e => {
+            if (e.target.classList.contains('form-input')) {
+                e.target.style.borderColor = '';
+            }
+            if (e.target === airlineInput) {
+                airlineInput.style.borderColor = '';
+            }
+        });
+
+        // Inicializar con ningún dato
+        reconstruirCamposVuelos();
     </script>
 </body>
 </html>
