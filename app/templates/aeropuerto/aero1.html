@@ -209,23 +209,6 @@
             box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.2);
         }
         
-        .form-select {
-            width: 100%;
-            padding: 0.85rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            background-color: white;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .form-select:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.2);
-        }
-        
         /* Botones */
         .btn {
             display: inline-flex;
@@ -292,8 +275,8 @@
             font-style: italic;
         }
         
-        /* Sección de aerolíneas */
-        .aerolineas-section {
+        /* Sección de fuerza laboral activa */
+        .fuerza-laboral-section {
             margin-top: 2rem;
         }
         
@@ -318,78 +301,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-        }
-        
-        .aerolineas-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .aerolinea-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border-top: 3px solid var(--primary-color);
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-        
-        .aerolinea-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .card-icon {
-            background: linear-gradient(135deg, var(--primary-color), #5c6bc0);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-        
-        .card-title {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .card-content {
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-        }
-        
-        .card-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed #eee;
-        }
-        
-        .card-label {
-            font-weight: 500;
-            color: #555;
-        }
-        
-        .card-value {
-            font-weight: 600;
-            color: var(--primary-color);
         }
         
         /* Animaciones */
@@ -491,9 +402,9 @@
 
     <main class="main-content" role="main">
         <section class="form-card">
-            <h2 class="form-title">REGISTRO DE AEROLÍNEAS</h2>
+            <h2 class="form-title">REGISTRO DE FUERZA LABORAL ACTIVA</h2>
             
-            <form id="aerolineas-form" novalidate>
+            <form id="fuerza-laboral-form" novalidate>
                 <div class="form-group">
                     <label for="entity" class="form-label">Entidad:</label>
                     <p id="entity" class="form-value">Aeropuerto Internacional Simón Bolívar</p>
@@ -504,120 +415,46 @@
                     <p id="id-number" class="form-value">Ing. Carlos Rodríguez - Jefe de Operaciones</p>
                 </div> 
                 
-                <div class="aerolineas-section">
+                <div class="fuerza-laboral-section">
                     <h3 class="section-title">
-                        <i class="fas fa-plane"></i>
-                        Aerolíneas y Vuelos
+                        <i class="fas fa-users"></i>
+                        Fuerza Laboral Activa
                     </h3>
                     
-                    <div class="form-group">
-                        <label for="aerolinea1" class="form-label">Aerolínea 1:</label>
-                        <input type="text" 
-                               id="aerolinea1" 
-                               name="aerolinea1" 
-                               class="form-input" 
-                               required 
-                               placeholder="Nombre de la aerolínea">
+                    <div id="fuerza-laboral-inputs">
+                        <div class="form-group">
+                            <label for="nombre-fuerza-1" class="form-label">Nombre de la Fuerza Laboral:</label>
+                            <input type="text" 
+                                   id="nombre-fuerza-1" 
+                                   name="nombre-fuerza-1" 
+                                   class="form-input" 
+                                   required 
+                                   placeholder="Nombre de la fuerza laboral">
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad-fuerza-1" class="form-label">Cantidad:</label>
+                            <input type="number" 
+                                   id="cantidad-fuerza-1" 
+                                   name="cantidad-fuerza-1" 
+                                   class="form-input" 
+                                   required 
+                                   placeholder="Cantidad"
+                                   min="0"
+                                   step="1">
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="vuelos1" class="form-label">Cantidad de Vuelos:</label>
-                        <input type="number" 
-                               id="vuelos1" 
-                               name="vuelos1" 
-                               class="form-input" 
-                               required 
-                               placeholder="Número de vuelos"
-                               min="0"
-                               step="1">
-                    </div>
+                    <button type="button" id="add-fuerza" class="btn" style="margin-top: 1rem;">
+                        <i class="fas fa-plus"></i> Añadir Fuerza Laboral
+                    </button>
                     
                     <div class="form-group">
-                        <label for="aerolinea2" class="form-label">Aerolínea 2:</label>
-                        <input type="text" 
-                               id="aerolinea2" 
-                               name="aerolinea2" 
-                               class="form-input" 
-                               required 
-                               placeholder="Nombre de la aerolínea">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vuelos2" class="form-label">Cantidad de Vuelos:</label>
-                        <input type="number" 
-                               id="vuelos2" 
-                               name="vuelos2" 
-                               class="form-input" 
-                               required 
-                               placeholder="Número de vuelos"
-                               min="0"
-                               step="1">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="aerolinea3" class="form-label">Aerolínea 3:</label>
-                        <input type="text" 
-                               id="aerolinea3" 
-                               name="aerolinea3" 
-                               class="form-input" 
-                               required 
-                               placeholder="Nombre de la aerolínea">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vuelos3" class="form-label">Cantidad de Vuelos:</label>
-                        <input type="number" 
-                               id="vuelos3" 
-                               name="vuelos3" 
-                               class="form-input" 
-                               required 
-                               placeholder="Número de vuelos"
-                               min="0"
-                               step="1">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="aerolinea4" class="form-label">Aerolínea 4:</label>
-                        <input type="text" 
-                               id="aerolinea4" 
-                               name="aerolinea4" 
-                               class="form-input" 
-                               required 
-                               placeholder="Nombre de la aerolínea">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vuelos4" class="form-label">Cantidad de Vuelos:</label>
-                        <input type="number" 
-                               id="vuelos4" 
-                               name="vuelos4" 
-                               class="form-input" 
-                               required 
-                               placeholder="Número de vuelos"
-                               min="0"
-                               step="1">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="aerolinea5" class="form-label">Aerolínea 5:</label>
-                        <input type="text" 
-                               id="aerolinea5" 
-                               name="aerolinea5" 
-                               class="form-input" 
-                               required 
-                               placeholder="Nombre de la aerolínea">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vuelos5" class="form-label">Cantidad de Vuelos:</label>
-                        <input type="number" 
-                               id="vuelos5" 
-                               name="vuelos5" 
-                               class="form-input" 
-                               required 
-                               placeholder="Número de vuelos"
-                               min="0"
-                               step="1">
+                        <label for="observaciones" class="form-label">Observaciones:</label>
+                        <textarea id="observaciones" 
+                                  name="observaciones" 
+                                  class="form-input" 
+                                  rows="4" 
+                                  placeholder="Escriba sus observaciones aquí..."></textarea>
                     </div>
                 </div>
                 
@@ -631,110 +468,72 @@
                 </div>
             </form>
         </section>
-        
-        <section class="aerolineas-section">
-            <h3 class="section-title">
-                <i class="fas fa-chart-bar"></i>
-                Resumen de Aerolíneas
-            </h3>
-            
-            <div class="aerolineas-grid">
-                <div class="aerolinea-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-plane-departure"></i>
-                        </div>
-                        <div class="card-title">Avianca</div>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-row">
-                            <span class="card-label">Vuelos Nacionales:</span>
-                            <span class="card-value">24</span>
-                        </div>
-                        <div class="card-row">
-                            <span class="card-label">Vuelos Internacionales:</span>
-                            <span class="card-value">18</span>
-                        </div>
-                        <div class="card-row">
-                            <span class="card-label">Total Vuelos:</span>
-                            <span class="card-value">42</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="aerolinea-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-plane"></i>
-                        </div>
-                        <div class="card-title">LATAM</div>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-row">
-                            <span class="card-label">Vuelos Nacionales:</span>
-                            <span class="card-value">19</span>
-                        </div>
-                        <div class="card-row">
-                            <span class="card-label">Vuelos Internacionales:</span>
-                            <span class="card-value">22</span>
-                        </div>
-                        <div class="card-row">
-                            <span class="card-label">Total Vuelos:</span>
-                            <span class="card-value">41</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="aerolinea-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-fighter-jet"></i>
-                        </div>
-                        <div class="card-title">Copa Airlines</div>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-row">
-                            <span class="card-label">Vuelos Nacionales:</span>
-                            <span class="card-value">15</span>
-                        </div>
-                        <div class="card-row">
-                            <span class="card-label">Vuelos Internacionales:</span>
-                            <span class="card-value">30</span>
-                        </div>
-                        <div class="card-row">
-                            <span class="card-label">Total Vuelos:</span>
-                            <span class="card-value">45</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <script>
+        // Contador para las fuerzas laborales
+        let fuerzaCount = 1;
+
+        // Función para añadir nuevos campos de fuerza laboral
+        document.getElementById('add-fuerza').addEventListener('click', function() {
+            fuerzaCount++;
+            const fuerzaInputs = document.getElementById('fuerza-laboral-inputs');
+
+            const newFuerzaGroup = document.createElement('div');
+            newFuerzaGroup.classList.add('form-group');
+
+            newFuerzaGroup.innerHTML = `
+                <label for="nombre-fuerza-${fuerzaCount}" class="form-label">Nombre de la Fuerza Laboral:</label>
+                <input type="text" 
+                       id="nombre-fuerza-${fuerzaCount}" 
+                       name="nombre-fuerza-${fuerzaCount}" 
+                       class="form-input" 
+                       required 
+                       placeholder="Nombre de la fuerza laboral">
+                <label for="cantidad-fuerza-${fuerzaCount}" class="form-label">Cantidad:</label>
+                <input type="number" 
+                       id="cantidad-fuerza-${fuerzaCount}" 
+                       name="cantidad-fuerza-${fuerzaCount}" 
+                       class="form-input" 
+                       required 
+                       placeholder="Cantidad"
+                       min="0"
+                       step="1">
+            `;
+
+            fuerzaInputs.appendChild(newFuerzaGroup);
+        });
+
         // Validación del formulario
-        document.getElementById('aerolineas-form').addEventListener('submit', function(e) {
+        document.getElementById('fuerza-laboral-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
             let isValid = true;
-            const aerolineaInputs = document.querySelectorAll('input[type="text"]');
-            const vueloInputs = document.querySelectorAll('input[type="number"]');
+            const fuerzaInputs = document.querySelectorAll('input[type="text"]');
+            const cantidadInputs = document.querySelectorAll('input[type="number"]');
+            const observacionesInput = document.getElementById('observaciones');
             
-            // Validar campos de aerolíneas
-            aerolineaInputs.forEach(input => {
+            // Validar campos de fuerza laboral
+            fuerzaInputs.forEach(input => {
                 if (!input.value.trim()) {
                     input.style.borderColor = 'red';
                     isValid = false;
                 }
             });
             
-            // Validar campos de vuelos
-            vueloInputs.forEach(input => {
+            // Validar campos de cantidad
+            cantidadInputs.forEach(input => {
                 if (!input.value || parseInt(input.value) < 0) {
                     input.style.borderColor = 'red';
                     isValid = false;
                 }
             });
+            
+            // Validar campo de observaciones
+            if (!observacionesInput.value.trim()) {
+                observacionesInput.style.borderColor = 'red';
+                isValid = false;
+            }
             
             if (isValid) {
                 // Simulación de envío exitoso
@@ -752,29 +551,8 @@
         
         // Restablecer estilos al corregir
         document.querySelectorAll('.form-input').forEach(input => {
-            input.addEventListener('input', function() {
+            input.addEventListener('input', function () {
                 this.style.borderColor = '';
-            });
-        });
-        
-        // Máscara para campos numéricos
-        vueloInputs.forEach(input => {
-            Inputmask({
-                alias: 'numeric',
-                groupSeparator: '.',
-                autoGroup: true,
-                digits: 0,
-                digitsOptional: false,
-                placeholder: '0',
-                rightAlign: false,
-                allowMinus: false
-            }).mask(input);
-        });
-        
-        // Botón de reinicio
-        document.querySelector('button[type="reset"]').addEventListener('click', function() {
-            document.querySelectorAll('.form-input').forEach(input => {
-                input.style.borderColor = '';
             });
         });
     </script>
