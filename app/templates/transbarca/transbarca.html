@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sistema de actividades operativas - Transbarca">
+    
+    <!-- Fuentes e iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
+    
+    <title>Transbarca - Sistema Operativo</title>
+    
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --primary-hover: #007bff;
+            --secondary-color: #f0f8ff;
+            --text-color: #333;
+            --light-text: #fff;
+            --border-color: #ddd;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        /* Reset y estilos base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e0f0ff 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header mejorado */
+        .main-header {
+            background: linear-gradient(to right, var(--primary-color), #007bff);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Navegación mejorada */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, 
+        .nav-link:focus {
+            color: var(--light-text);
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            outline: none;
+        }
+        
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+        
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Tarjeta de formulario */
+        .form-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), #4da6ff);
+            border-radius: 2px;
+        }
+        
+        /* Grupos de formulario */
+        .form-group {
+            margin-bottom: 1.25rem;
+            background-color: #f9f9f9;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .form-group:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .form-value {
+            margin: 0;
+            font-weight: normal;
+            color: #555;
+            padding: 0.5rem;
+            background-color: #f0f4ff;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #fff;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+        }
+        
+        .total-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #e8f4ff;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-weight: bold;
+            border: 1px dashed #007bff;
+        }
+        
+        .total-label {
+            color: var(--primary-color);
+        }
+        
+        .total-value {
+            color: #0056b3;
+            font-size: 1.2rem;
+        }
+        
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            background: linear-gradient(to right, var(--primary-color), #4da6ff);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 86, 179, 0.2);
+        }
+        
+        .btn:hover, 
+        .btn:focus {
+            background: linear-gradient(to right, var(--primary-hover), #66b0ff);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 86, 179, 0.25);
+            outline: none;
+        }
+        
+        .btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(4px);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #6c757d, #5a6268);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #5a6268, #4d555c);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, var(--danger-color), #e53935);
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(to right, #bd2130, #c82333);
+        }
+        
+        /* Navegación de acciones */
+        .action-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            gap: 1rem;
+        }
+        
+        /* Clase para screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Sección de datos */
+        .data-section {
+            margin-top: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .section-title i {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .data-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 3px solid var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .data-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-icon {
+            background: linear-gradient(135deg, var(--primary-color), #4da6ff);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .card-label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .card-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .flota-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .flota-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Estilos específicos para actividades */
+        .actividad-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        
+        .actividad-numero {
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .actividad-input {
+            flex-grow: 1;
+            position: relative;
+        }
+        
+        .remove-activity {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .remove-activity:hover {
+            opacity: 1;
+        }
+        
+        .status-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .status-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .status-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .status-badge.active {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+        
+        .status-badge.inactive {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+        }
+        
+        .textarea-container {
+            margin-top: 0.5rem;
+        }
+        
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .add-activity-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .activity-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 900px) {
+            .data-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .main-nav {
+                width: 100%;
+            }
+            
+            .nav-list {
+                justify-content: center;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .form-card {
+                padding: 1.8rem;
+            }
+            
+            .action-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .flota-container, .status-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 1.2rem;
+            }
+            
+            .nav-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .form-card {
+                padding: 1.5rem;
+            }
+            
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header" role="banner">
+        <div class="header-content">
+            <h1 class="sr-only">Transbarca - Sistema Operativo</h1>
+            <div class="logo-container">
+                <i class="fas fa-bus logo-icon"></i>
+                <div class="logo-text">Transbarca</div>
+            </div>
+            
+            <nav class="main-nav" aria-label="Navegación principal">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" aria-label="Volver al dashboard">
+                            <i class="fas fa-home" aria-hidden="true"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" aria-label="Cerrar sesión">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                            <span>Salir</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content" role="main">
+        <section class="form-card">
+            <h2 class="form-title">SISTEMA DE ACTIVIDADES OPERATIVAS</h2>
+            
+            <form id="transbarca-form" novalidate>
+                <div class="form-group">
+                    <label for="entity" class="form-label">Entidad:</label>
+                    <p id="entity" class="form-value">Transbarca - Gobierno del Estado Lara</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="responsable" class="form-label">Responsable:</label>
+                    <p id="responsable" class="form-value">Ing. Carlos Mendoza - Jefe de Operaciones</p>
+                </div> 
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tasks"></i>
+                        Actividades Operativas
+                    </h3>
+                    
+                    <div id="actividades-container">
+                        <!-- Las actividades se agregarán dinámicamente aquí -->
+                    </div>
+                    
+                    <div class="add-activity-container">
+                        <button type="button" id="add-activity" class="btn btn-secondary">
+                            <i class="fas fa-plus-circle"></i> Agregar Actividad
+                        </button>
+                    </div>
+                    
+                    <div class="total-display">
+                        <span class="total-label">TOTAL ACTIVIDADES REGISTRADAS:</span>
+                        <span class="total-value" id="total-actividades">0</span>
+                    </div>
+                </div>
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-route"></i>
+                        Rutas
+                    </h3>
+                    
+                    <div class="form-group">
+                        <div class="status-container">
+                            <div class="status-item">
+                                <label class="status-label">Rutas Activas</label>
+                                <input type="number" 
+                                       id="rutas-activas" 
+                                       name="rutas-activas" 
+                                       class="form-input" 
+                                       required 
+                                       placeholder="Cantidad"
+                                       min="0"
+                                       step="1">
+                            </div>
+                            
+                            <div class="status-item">
+                                <label class="status-label">Rutas Inactivas</label>
+                                <input type="number" 
+                                       id="rutas-inactivas" 
+                                       name="rutas-inactivas" 
+                                       class="form-input" 
+                                       required 
+                                       placeholder="Cantidad"
+                                       min="0"
+                                       step="1">
+                            </div>
+                        </div>
+                        
+                        <div class="total-display">
+                            <span class="total-label">TOTAL RUTAS:</span>
+                            <span class="total-value" id="total-rutas">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-bus"></i>
+                        Flota de Vehículos
+                    </h3>
+                    
+                    <div class="form-group">
+                        <div class="status-container">
+                            <div class="status-item">
+                                <label class="status-label">Vehículos Activos</label>
+                                <input type="number" 
+                                       id="vehiculos-activos" 
+                                       name="vehiculos-activos" 
+                                       class="form-input" 
+                                       required 
+                                       placeholder="Cantidad"
+                                       min="0"
+                                       step="1">
+                            </div>
+                            
+                            <div class="status-item">
+                                <label class="status-label">Vehículos Inactivos</label>
+                                <input type="number" 
+                                       id="vehiculos-inactivos" 
+                                       name="vehiculos-inactivos" 
+                                       class="form-input" 
+                                       required 
+                                       placeholder="Cantidad"
+                                       min="0"
+                                       step="1">
+                            </div>
+                        </div>
+                        
+                        <div class="total-display">
+                            <span class="total-label">TOTAL VEHÍCULOS:</span>
+                            <span class="total-value" id="total-vehiculos">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Fuerza Laboral
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="fuerza-laboral" class="form-label">Personal Operativo</label>
+                        <input type="number" 
+                               id="fuerza-laboral" 
+                               name="fuerza-laboral" 
+                               class="form-input" 
+                               required 
+                               placeholder="Número de trabajadores"
+                               min="0"
+                               step="1">
+                    </div>
+                </div>
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-clipboard-list"></i>
+                        Observaciones
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="observaciones" class="form-label">Anotaciones importantes</label>
+                        <div class="textarea-container">
+                            <textarea 
+                                id="observaciones" 
+                                name="observaciones" 
+                                class="form-input" 
+                                placeholder="Escriba aquí cualquier observación relevante..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group action-nav">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-save"></i> Guardar Datos
+                    </button>
+                    <button type="reset" class="btn" style="background: linear-gradient(to right, #78909c, #546e7a);">
+                        <i class="fas fa-redo"></i> Reiniciar
+                    </button>
+                </div>
+            </form>
+        </section>
+        
+        <section class="data-section">
+            <h3 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Resumen Operativo
+            </h3>
+            
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="card-title">Actividades</div>
+                    </div>
+                    <div class="card-content" id="resumen-actividades">
+                        <div class="card-row">
+                            <span class="card-label">No hay actividades registradas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="card-title">Rutas</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Rutas Activas:</span>
+                            <span class="card-value"><span class="status-badge active">18</span></span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Rutas Inactivas:</span>
+                            <span class="card-value"><span class="status-badge inactive">3</span></span>
+                        </div>
+                        <div class="card-row" style="background-color: #e8f4ff; border-radius: 4px; padding: 8px;">
+                            <span class="card-label" style="font-weight: bold;">Total Rutas:</span>
+                            <span class="card-value" style="font-weight: bold; color: #0056b3;">21</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <div class="card-title">Flota</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Vehículos Activos:</span>
+                            <span class="card-value"><span class="status-badge active">45</span></span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Vehículos Inactivos:</span>
+                            <span class="card-value"><span class="status-badge inactive">7</span></span>
+                        </div>
+                        <div class="card-row" style="background-color: #e8f4ff; border-radius: 4px; padding: 8px;">
+                            <span class="card-label" style="font-weight: bold;">Total Vehículos:</span>
+                            <span class="card-value" style="font-weight: bold; color: #0056b3;">52</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-title">Personal</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Conductores:</span>
+                            <span class="card-value">58</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Mantenimiento:</span>
+                            <span class="card-value">22</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Administrativos:</span>
+                            <span class="card-value">14</span>
+                        </div>
+                        <div class="card-row" style="background-color: #e8f4ff; border-radius: 4px; padding: 8px;">
+                            <span class="card-label" style="font-weight: bold;">Total Personal:</span>
+                            <span class="card-value" style="font-weight: bold; color: #0056b3;">94</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Variables globales
+        let activityCounter = 0;
+        
+        // Función para agregar una nueva actividad
+        function addActivity(activityText = '') {
+            activityCounter++;
+            
+            const activitiesContainer = document.getElementById('actividades-container');
+            
+            const activityDiv = document.createElement('div');
+            activityDiv.className = 'form-group';
+            activityDiv.innerHTML = `
+                <div class="actividad-container">
+                    <div class="actividad-numero">${activityCounter}</div>
+                    <div class="actividad-input">
+                        <input type="text" 
+                               id="actividad-${activityCounter}" 
+                               name="actividad-${activityCounter}" 
+                               class="form-input" 
+                               required 
+                               placeholder="Descripción de la actividad"
+                               value="${activityText}">
+                        <button class="remove-activity" data-id="${activityCounter}" title="Eliminar actividad">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            activitiesContainer.appendChild(activityDiv);
+            
+            // Añadir evento de eliminación
+            const removeBtn = activityDiv.querySelector('.remove-activity');
+            removeBtn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                removeActivity(id);
+            });
+            
+            // Actualizar contador
+            updateActivityCount();
+            
+            // Animación
+            activityDiv.style.animation = 'slideIn 0.4s ease';
+        }
+        
+        // Función para eliminar una actividad
+        function removeActivity(id) {
+            const activityToRemove = document.querySelector(`.remove-activity[data-id="${id}"]`).closest('.form-group');
+            activityToRemove.style.animation = 'fadeIn 0.3s reverse';
+            
+            setTimeout(() => {
+                activityToRemove.remove();
+                updateActivityCount();
+                renumberActivities();
+            }, 300);
+        }
+        
+        // Renumerar actividades después de eliminar una
+        function renumberActivities() {
+            const activities = document.querySelectorAll('.actividad-container');
+            let counter = 1;
+            
+            activities.forEach(activity => {
+                const numElement = activity.querySelector('.actividad-numero');
+                numElement.textContent = counter;
+                
+                const input = activity.querySelector('input');
+                input.id = `actividad-${counter}`;
+                input.name = `actividad-${counter}`;
+                
+                const removeBtn = activity.querySelector('.remove-activity');
+                removeBtn.setAttribute('data-id', counter);
+                
+                counter++;
+            });
+            
+            activityCounter = activities.length;
+            updateActivityCount();
+        }
+        
+        // Actualizar el contador de actividades
+        function updateActivityCount() {
+            document.getElementById('total-actividades').textContent = activityCounter;
+        }
+        
+        // Función para inicializar actividades
+        function initActivities() {
+            // Agregar 3 actividades por defecto
+            addActivity('Mantenimiento preventivo');
+            addActivity('Revisión de rutas');
+            addActivity('Capacitación personal');
+        }
+        
+        // Validación del formulario
+        document.getElementById('transbarca-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+            const inputs = document.querySelectorAll('.form-input');
+            const actividades = document.querySelectorAll('[id^="actividad-"]');
+            
+            // Validar campos numéricos
+            inputs.forEach(input => {
+                if (input.type === 'number' && (!input.value || parseInt(input.value) < 0)) {
+                    input.style.borderColor = 'red';
+                    isValid = false;
+                }
+            });
+            
+            // Validar actividades
+            actividades.forEach(actividad => {
+                if (!actividad.value.trim()) {
+                    actividad.style.borderColor = 'red';
+                    isValid = false;
+                }
+            });
+            
+            if (isValid) {
+                // Simulación de envío exitoso
+                alert('¡Datos de Transbarca guardados exitosamente!');
+                
+                // Actualizar resumen
+                actualizarResumen();
+                
+                // Restablecer estilos
+                document.querySelectorAll('.form-input').forEach(input => {
+                    input.style.borderColor = '';
+                });
+            } else {
+                alert('Por favor complete todos los campos con valores válidos');
+            }
+        });
+        
+        // Función para actualizar los totales
+        function calcularTotales() {
+            // Calcular total rutas
+            const rutasActivas = parseInt(document.getElementById('rutas-activas').value) || 0;
+            const rutasInactivas = parseInt(document.getElementById('rutas-inactivas').value) || 0;
+            const totalRutas = rutasActivas + rutasInactivas;
+            document.getElementById('total-rutas').textContent = totalRutas;
+            
+            // Calcular total vehículos
+            const vehiculosActivos = parseInt(document.getElementById('vehiculos-activos').value) || 0;
+            const vehiculosInactivos = parseInt(document.getElementById('vehiculos-inactivos').value) || 0;
+            const totalVehiculos = vehiculosActivos + vehiculosInactivos;
+            document.getElementById('total-vehiculos').textContent = totalVehiculos;
+        }
+        
+        // Función para actualizar el resumen
+        function actualizarResumen() {
+            const resumenContainer = document.getElementById('resumen-actividades');
+            resumenContainer.innerHTML = '';
+            
+            // Actualizar actividades en el resumen
+            const actividades = document.querySelectorAll('[id^="actividad-"]');
+            
+            if (actividades.length === 0) {
+                resumenContainer.innerHTML = '<div class="card-row"><span class="card-label">No hay actividades registradas</span></div>';
+            } else {
+                actividades.forEach((actividad, index) => {
+                    const actividadValue = actividad.value || "No especificada";
+                    
+                    const row = document.createElement('div');
+                    row.className = 'card-row';
+                    row.innerHTML = `
+                        <span class="card-label">Actividad ${index + 1}:</span>
+                        <span class="card-value">${actividadValue}</span>
+                    `;
+                    
+                    resumenContainer.appendChild(row);
+                });
+                
+                // Agregar total
+                const totalRow = document.createElement('div');
+                totalRow.className = 'card-row';
+                totalRow.style.backgroundColor = '#e8f4ff';
+                totalRow.style.borderRadius = '4px';
+                totalRow.style.padding = '8px';
+                totalRow.innerHTML = `
+                    <span class="card-label" style="font-weight: bold;">Total:</span>
+                    <span class="card-value" style="font-weight: bold; color: #0056b3;">${actividades.length} actividades</span>
+                `;
+                
+                resumenContainer.appendChild(totalRow);
+            }
+            
+            // Actualizar rutas
+            const rutasActivas = parseInt(document.getElementById('rutas-activas').value) || 0;
+            const rutasInactivas = parseInt(document.getElementById('rutas-inactivas').value) || 0;
+            document.querySelector('.card-content:nth-child(2) .card-row:nth-child(1) .status-badge').textContent = rutasActivas;
+            document.querySelector('.card-content:nth-child(2) .card-row:nth-child(2) .status-badge').textContent = rutasInactivas;
+            document.querySelector('.card-content:nth-child(2) .card-row:nth-child(3) .card-value').textContent = rutasActivas + rutasInactivas;
+            
+            // Actualizar vehículos
+            const vehiculosActivos = parseInt(document.getElementById('vehiculos-activos').value) || 0;
+            const vehiculosInactivos = parseInt(document.getElementById('vehiculos-inactivos').value) || 0;
+            document.querySelector('.card-content:nth-child(3) .card-row:nth-child(1) .status-badge').textContent = vehiculosActivos;
+            document.querySelector('.card-content:nth-child(3) .card-row:nth-child(2) .status-badge').textContent = vehiculosInactivos;
+            document.querySelector('.card-content:nth-child(3) .card-row:nth-child(3) .card-value').textContent = vehiculosActivos + vehiculosInactivos;
+            
+            // Actualizar personal
+            const personal = parseInt(document.getElementById('fuerza-laboral').value) || 0;
+            document.querySelector('.card-content:nth-child(4) .card-row:nth-child(4) .card-value').textContent = personal;
+            
+            // Actualizar observaciones
+            const observaciones = document.getElementById('observaciones').value;
+            if (observaciones) {
+                // Podrías agregar las observaciones en algún lugar del resumen si lo deseas
+            }
+        }
+        
+        // Escuchar cambios en los inputs para actualizar totales
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.style.borderColor = '';
+                if (this.type === 'number') {
+                    calcularTotales();
+                }
+            });
+        });
+        
+        // Botón de agregar actividad
+        document.getElementById('add-activity').addEventListener('click', function() {
+            addActivity();
+        });
+        
+        // Botón de reinicio
+        document.querySelector('button[type="reset"]').addEventListener('click', function() {
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.style.borderColor = '';
+                input.value = '';
+            });
+            
+            // Restablecer totales
+            document.querySelectorAll('.total-value').forEach(el => {
+                el.textContent = '0';
+            });
+            
+            // Eliminar todas las actividades
+            document.getElementById('actividades-container').innerHTML = '';
+            activityCounter = 0;
+            updateActivityCount();
+            
+            // Restablecer resumen a valores predeterminados
+            setTimeout(function() {
+                document.querySelector('.card-content:nth-child(2) .card-row:nth-child(1) .status-badge').textContent = '18';
+                document.querySelector('.card-content:nth-child(2) .card-row:nth-child(2) .status-badge').textContent = '3';
+                document.querySelector('.card-content:nth-child(2) .card-row:nth-child(3) .card-value').textContent = '21';
+                
+                document.querySelector('.card-content:nth-child(3) .card-row:nth-child(1) .status-badge').textContent = '45';
+                document.querySelector('.card-content:nth-child(3) .card-row:nth-child(2) .status-badge').textContent = '7';
+                document.querySelector('.card-content:nth-child(3) .card-row:nth-child(3) .card-value').textContent = '52';
+                
+                document.querySelector('.card-content:nth-child(4) .card-row:nth-child(4) .card-value').textContent = '94';
+                
+                document.getElementById('resumen-actividades').innerHTML = '<div class="card-row"><span class="card-label">No hay actividades registradas</span></div>';
+                
+                // Agregar 3 actividades por defecto nuevamente
+                initActivities();
+            }, 100);
+        });
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calcular totales iniciales
+            calcularTotales();
+            
+            // Inicializar actividades
+            initActivities();
+        });
+    </script>
+</body>
+</html>

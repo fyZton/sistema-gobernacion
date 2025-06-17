@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sistema de gestión de actividades - Construlara">
+    
+    <!-- Fuentes e iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
+    
+    <title>Construlara - Sistema de Actividades</title>
+    
+    <style>
+        :root {
+            --primary-color: #2e7d32; /* Verde para construcción */
+            --primary-hover: #43a047;
+            --secondary-color: #e8f5e9;
+            --text-color: #333;
+            --light-text: #fff;
+            --border-color: #ddd;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        /* Reset y estilos base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header mejorado */
+        .main-header {
+            background: linear-gradient(to right, var(--primary-color), #388e3c);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Navegación mejorada */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, 
+        .nav-link:focus {
+            color: var(--light-text);
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            outline: none;
+        }
+        
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+        
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Tarjeta de formulario */
+        .form-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), #66bb6a);
+            border-radius: 2px;
+        }
+        
+        /* Grupos de formulario */
+        .form-group {
+            margin-bottom: 1.25rem;
+            background-color: #f9f9f9;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .form-group:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .form-value {
+            margin: 0;
+            font-weight: normal;
+            color: #555;
+            padding: 0.5rem;
+            background-color: #f0f4ff;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #fff;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+        
+        .total-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #E8F5E9;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-weight: bold;
+            border: 1px dashed #66bb6a;
+        }
+        
+        .total-label {
+            color: var(--primary-color);
+        }
+        
+        .total-value {
+            color: #2e7d32;
+            font-size: 1.2rem;
+        }
+        
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            background: linear-gradient(to right, var(--primary-color), #4caf50);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
+        }
+        
+        .btn:hover, 
+        .btn:focus {
+            background: linear-gradient(to right, var(--primary-hover), #43a047);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(46, 125, 50, 0.25);
+            outline: none;
+        }
+        
+        .btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(4px);
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Navegación de acciones */
+        .action-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            gap: 1rem;
+        }
+        
+        /* Clase para screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Sección de datos */
+        .data-section {
+            margin-top: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .section-title i {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .data-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 3px solid var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .data-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-icon {
+            background: linear-gradient(135deg, var(--primary-color), #66bb6a);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .card-label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .card-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .flota-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .flota-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Lista de actividades */
+        .actividad-item {
+            background: #f1f8e9;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .actividad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .actividad-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .actividad-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .actividad-field {
+            margin-bottom: 0.5rem;
+        }
+        
+        .actividad-field-full {
+            grid-column: span 2;
+        }
+        
+        .actividad-label {
+            font-weight: 500;
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .actividad-value {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 900px) {
+            .data-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .main-nav {
+                width: 100%;
+            }
+            
+            .nav-list {
+                justify-content: center;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .form-card {
+                padding: 1.8rem;
+            }
+            
+            .action-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .flota-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .actividad-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .actividad-field-full {
+                grid-column: span 1;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 1.2rem;
+            }
+            
+            .nav-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .form-card {
+                padding: 1.5rem;
+            }
+            
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Estilos para el contador */
+        .counter {
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .actividad-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Nuevos estilos para el tipo de actividad */
+        .tipo-actividad {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .tipo-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header" role="banner">
+        <div class="header-content">
+            <h1 class="sr-only">Construlara - Sistema de Actividades</h1>
+            <div class="logo-container">
+                <i class="fas fa-building logo-icon"></i>
+                <div class="logo-text">Construlara</div>
+            </div>
+            
+            <nav class="main-nav" aria-label="Navegación principal">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" aria-label="Volver al dashboard">
+                            <i class="fas fa-home" aria-hidden="true"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" aria-label="Cerrar sesión">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                            <span>Salir</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content" role="main">
+        <section class="form-card">
+            <h2 class="form-title">SISTEMA DE GESTIÓN DE ACTIVIDADES - CONSTRULARA</h2>
+            
+            <form id="construlara-form" novalidate>
+                <div class="form-group">
+                    <label for="entity" class="form-label">Entidad:</label>
+                    <p id="entity" class="form-value">Construlara - Gobierno del Estado Lara</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="responsable" class="form-label">Responsable:</label>
+                    <p id="responsable" class="form-value">Ing. Carlos Mendoza - Director de Proyectos</p>
+                </div> 
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tasks"></i>
+                        Actividades Realizadas
+                    </h3>
+                    
+                    <div id="actividades-container">
+                        <!-- Las actividades se agregarán aquí dinámicamente -->
+                    </div>
+                    
+                    <div class="text-center" style="margin-top: 1.5rem;">
+                        <button type="button" id="btn-agregar-actividad" class="btn btn-sm">
+                            <i class="fas fa-plus"></i> Agregar Actividad
+                        </button>
+                    </div>
+                    
+                    <div class="total-display">
+                        <span class="total-label">TOTAL ACTIVIDADES:</span>
+                        <span class="total-value" id="total-actividades">0</span>
+                    </div>
+                </div>
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-truck"></i>
+                        Flota de Maquinaria
+                    </h3>
+                    
+                    <div class="flota-container">
+                        <div class="flota-item">
+                            <label for="flota-activa" class="form-label">Maquinaria Activa</label>
+                            <input type="number" 
+                                   id="flota-activa" 
+                                   name="flota-activa" 
+                                   class="form-input" 
+                                   required 
+                                   placeholder="Cantidad activa"
+                                   min="0"
+                                   step="1">
+                        </div>
+                        
+                        <div class="flota-item">
+                            <label for="flota-inactiva" class="form-label">Maquinaria Inactiva</label>
+                            <input type="number" 
+                                   id="flota-inactiva" 
+                                   name="flota-inactiva" 
+                                   class="form-input" 
+                                   required 
+                                   placeholder="Cantidad inactiva"
+                                   min="0"
+                                   step="1">
+                        </div>
+                    </div>
+                    
+                    <div class="total-display">
+                        <span class="total-label">TOTAL MAQUINARIA:</span>
+                        <span class="total-value" id="total-flota">0</span>
+                    </div>
+                </div>
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Fuerza Laboral
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="fuerza-laboral" class="form-label">Personal Activo</label>
+                        <input type="number" 
+                               id="fuerza-laboral" 
+                               name="fuerza-laboral" 
+                               class="form-input" 
+                               required 
+                               placeholder="Cantidad de personal"
+                               min="0"
+                               step="1">
+                    </div>
+                    
+                    <div class="total-display">
+                        <span class="total-label">TOTAL PERSONAL:</span>
+                        <span class="total-value" id="total-personal">0</span>
+                    </div>
+                </div>
+                
+                <div class="data-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-clipboard-list"></i>
+                        Observaciones
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="observaciones" class="form-label">Detalles y Observaciones</label>
+                        <textarea 
+                            id="observaciones" 
+                            name="observaciones" 
+                            class="form-textarea" 
+                            rows="4" 
+                            placeholder="Ingrese observaciones relevantes sobre las actividades y operaciones"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group action-nav">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-save"></i> Guardar Información
+                    </button>
+                    <button type="reset" class="btn" style="background: linear-gradient(to right, #78909c, #546e7a);">
+                        <i class="fas fa-redo"></i> Reiniciar
+                    </button>
+                </div>
+            </form>
+        </section>
+        
+        <section class="data-section">
+            <h3 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Resumen General
+            </h3>
+            
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="card-title">Actividades</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Registradas:</span>
+                            <span class="card-value">3</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Proyectos Activos:</span>
+                            <span class="card-value">2</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Obras Completadas:</span>
+                            <span class="card-value">1</span>
+                        </div>
+                        <div class="card-row" style="background-color: #E8F5E9; border-radius: 4px; padding: 8px;">
+                            <span class="card-label" style="font-weight: bold;">Avance Total:</span>
+                            <span class="card-value" style="font-weight: bold; color: #2e7d32;">65%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="card-title">Maquinaria</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Activas:</span>
+                            <span class="card-value">15</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Inactivas:</span>
+                            <span class="card-value">2</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Disponibilidad:</span>
+                            <span class="card-value">88%</span>
+                        </div>
+                        <div class="card-row" style="background-color: #E8F5E9; border-radius: 4px; padding: 8px;">
+                            <span class="card-label" style="font-weight: bold;">Total Maquinaria:</span>
+                            <span class="card-value" style="font-weight: bold; color: #2e7d32;">17</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-title">Personal</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Personal Activo:</span>
+                            <span class="card-value">45</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Supervisores:</span>
+                            <span class="card-value">5</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Capacitados:</span>
+                            <span class="card-value">38</span>
+                        </div>
+                        <div class="card-row" style="background-color: #E8F5E9; border-radius: 4px; padding: 8px;">
+                            <span class="card-label" style="font-weight: bold;">Total Fuerza Laboral:</span>
+                            <span class="card-value" style="font-weight: bold; color: #2e7d32;">45</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="card-title">Resumen General</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-row">
+                            <span class="card-label">Actividades:</span>
+                            <span class="card-value">3</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Maquinaria:</span>
+                            <span class="card-value">17</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="card-label">Personal:</span>
+                            <span class="card-value">45</span>
+                        </div>
+                        <div class="card-row" style="background-color: #E8F5E9; border-radius: 4px; padding: 8px;">
+                            <span class="card-label" style="font-weight: bold;">Eficiencia Operativa:</span>
+                            <span class="card-value" style="font-weight: bold; color: #4CAF50;">85%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Plantilla para actividades (oculta) -->
+    <template id="actividad-template">
+        <div class="actividad-item">
+            <div class="actividad-header">
+                <div style="display: flex; align-items: center;">
+                    <div class="counter">1</div>
+                    <div class="actividad-title">Actividad #<span class="actividad-numero">1</span></div>
+                </div>
+                <div class="actividad-actions">
+                    <button type="button" class="btn btn-sm" style="background: #f44336;" onclick="eliminarActividad(this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="actividad-content">
+                <div class="actividad-field actividad-field-full">
+                    <label class="actividad-label">Descripción de la Actividad</label>
+                    <textarea class="form-input actividad-input" name="descripcion[]" placeholder="Describa la actividad realizada" rows="2" required></textarea>
+                </div>
+                <div class="actividad-field">
+                    <label class="actividad-label">Tipo de Actividad</label>
+                    <select class="form-input actividad-input" name="tipo[]" required>
+                        <option value="">Seleccione tipo</option>
+                        <option value="construccion">Construcción</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                        <option value="reparacion">Reparación</option>
+                        <option value="supervision">Supervisión</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="actividad-field">
+                    <label class="actividad-label">Ubicación</label>
+                    <input type="text" class="form-input actividad-input" name="ubicacion[]" placeholder="Ubicación del proyecto" required>
+                </div>
+                <div class="actividad-field">
+                    <label class="actividad-label">Avance (%)</label>
+                    <input type="number" class="form-input actividad-input" name="avance[]" placeholder="Porcentaje de avance" min="0" max="100" step="1" required>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // Contador de actividades
+        let contadorActividades = 0;
+        
+        // Función para agregar una nueva actividad
+        function agregarActividad() {
+            contadorActividades++;
+            
+            // Clonar la plantilla
+            const template = document.getElementById('actividad-template');
+            const clone = template.content.cloneNode(true);
+            
+            // Actualizar números
+            const counter = clone.querySelector('.counter');
+            const numeroActividad = clone.querySelector('.actividad-numero');
+            counter.textContent = contadorActividades;
+            numeroActividad.textContent = contadorActividades;
+            
+            // Agregar al contenedor
+            document.getElementById('actividades-container').appendChild(clone);
+            
+            // Actualizar totales
+            actualizarTotales();
+            
+            // Agregar event listeners a los nuevos inputs
+            const nuevosInputs = clone.querySelectorAll('.actividad-input');
+            nuevosInputs.forEach(input => {
+                input.addEventListener('input', actualizarTotales);
+            });
+        }
+        
+        // Función para eliminar una actividad
+        function eliminarActividad(boton) {
+            const actividadItem = boton.closest('.actividad-item');
+            actividadItem.remove();
+            contadorActividades--;
+            
+            // Actualizar totales
+            actualizarTotales();
+            
+            // Renumerar actividades restantes
+            const actividades = document.querySelectorAll('.actividad-item');
+            actividades.forEach((actividad, index) => {
+                const counter = actividad.querySelector('.counter');
+                const numeroActividad = actividad.querySelector('.actividad-numero');
+                counter.textContent = index + 1;
+                numeroActividad.textContent = index + 1;
+            });
+        }
+        
+        // Función para actualizar todos los totales
+        function actualizarTotales() {
+            // Actualizar contador de actividades
+            document.getElementById('total-actividades').textContent = contadorActividades;
+            
+            // Calcular total de flota
+            const flotaActiva = parseInt(document.getElementById('flota-activa').value) || 0;
+            const flotaInactiva = parseInt(document.getElementById('flota-inactiva').value) || 0;
+            document.getElementById('total-flota').textContent = flotaActiva + flotaInactiva;
+            
+            // Calcular total de personal
+            const personal = parseInt(document.getElementById('fuerza-laboral').value) || 0;
+            document.getElementById('total-personal').textContent = personal;
+        }
+        
+        // Validación del formulario
+        document.getElementById('construlara-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+            
+            // Validar flota
+            const flotaActiva = document.getElementById('flota-activa');
+            const flotaInactiva = document.getElementById('flota-inactiva');
+            
+            if (!flotaActiva.value || parseInt(flotaActiva.value) < 0) {
+                flotaActiva.style.borderColor = 'red';
+                isValid = false;
+            }
+            
+            if (!flotaInactiva.value || parseInt(flotaInactiva.value) < 0) {
+                flotaInactiva.style.borderColor = 'red';
+                isValid = false;
+            }
+            
+            // Validar fuerza laboral
+            const fuerzaLaboral = document.getElementById('fuerza-laboral');
+            if (!fuerzaLaboral.value || parseInt(fuerzaLaboral.value) < 0) {
+                fuerzaLaboral.style.borderColor = 'red';
+                isValid = false;
+            }
+            
+            // Validar actividades
+            if (contadorActividades === 0) {
+                alert('Debe agregar al menos una actividad');
+                isValid = false;
+            } else {
+                // Validar que todas las actividades tengan descripción y tipo
+                const descripciones = document.querySelectorAll('textarea[name="descripcion[]"]');
+                const tipos = document.querySelectorAll('select[name="tipo[]"]');
+                const avances = document.querySelectorAll('input[name="avance[]"]');
+                
+                descripciones.forEach(desc => {
+                    if (!desc.value.trim()) {
+                        desc.style.borderColor = 'red';
+                        isValid = false;
+                    }
+                });
+                
+                tipos.forEach(tipo => {
+                    if (!tipo.value) {
+                        tipo.style.borderColor = 'red';
+                        isValid = false;
+                    }
+                });
+                
+                avances.forEach(avance => {
+                    const valor = parseInt(avance.value);
+                    if (isNaN(valor) || valor < 0 || valor > 100) {
+                        avance.style.borderColor = 'red';
+                        isValid = false;
+                    }
+                });
+            }
+            
+            if (isValid) {
+                // Simulación de envío exitoso
+                alert('¡Información de Construlara guardada exitosamente!');
+                
+                // Restablecer estilos
+                document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
+                    input.style.borderColor = '';
+                });
+            } else {
+                alert('Por favor complete todos los campos con valores válidos');
+            }
+        });
+        
+        // Botón para agregar actividades
+        document.getElementById('btn-agregar-actividad').addEventListener('click', agregarActividad);
+        
+        // Botón de reinicio
+        document.querySelector('button[type="reset"]').addEventListener('click', function() {
+            // Reiniciar actividades
+            document.getElementById('actividades-container').innerHTML = '';
+            contadorActividades = 0;
+            document.getElementById('total-actividades').textContent = '0';
+            
+            // Reiniciar otros campos
+            document.getElementById('flota-activa').value = '';
+            document.getElementById('flota-inactiva').value = '';
+            document.getElementById('fuerza-laboral').value = '';
+            document.getElementById('observaciones').value = '';
+            
+            // Restablecer estilos
+            document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
+                input.style.borderColor = '';
+            });
+            
+            // Actualizar totales
+            actualizarTotales();
+            
+            // Agregar una actividad inicial
+            agregarActividad();
+        });
+        
+        // Escuchar cambios en los inputs para actualizar totales
+        document.getElementById('flota-activa').addEventListener('input', actualizarTotales);
+        document.getElementById('flota-inactiva').addEventListener('input', actualizarTotales);
+        document.getElementById('fuerza-laboral').addEventListener('input', actualizarTotales);
+        
+        // Agregar una actividad inicial
+        window.addEventListener('DOMContentLoaded', function() {
+            agregarActividad();
+            actualizarTotales();
+        });
+    </script>
+</body>
+</html>
