@@ -74,6 +74,41 @@ def semalara4():
 def semalara5():
     return render_template('semalara/semalara5.html')
 
+#aeropuerto
+
+@app.route('/aeropuerto/aero0')
+def aero0():
+    return render_template('aeropuerto/aero0.html')
+
+@app.route('/aeropuerto/aero1')
+def aero1():
+    return render_template('aeropuerto/aero1.html')
+
+#construlara
+@app.route('/construlara/construlara0')
+def construlara0():
+    return render_template('construlara/construlara0.html')
+
+#funrevi
+@app.route('/funrevi/funrevi0')
+def funrevi0():
+    return render_template('funrevi/funrevi0.html')
+
+#gaslara
+@app.route('/gaslara/gas0')
+def gas0():
+    return render_template('gaslara/gas0.html')
+
+#transbarca
+@app.route('/transbarca/transbarca0')
+def transbarca0():
+    return render_template('transbarca/transbarca0.html')
+
+#invilara
+@app.route('/invilara/invilara0')
+def invilara0():
+    return render_template('invilara/invilara0.html')
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
@@ -176,6 +211,18 @@ def dashboard():
             return redirect(url_for('actividades'))
         elif role == 'semalara':  # <--- Ahora está dentro del bloque
             return redirect(url_for('semalara0'))
+        elif role == 'aeropuerto':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('aero0'))
+        elif role == 'construlara':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('construlara0'))
+        elif role == 'funrevi':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('funrevi0'))
+        elif role == 'transbarca':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('transbarca0'))
+        elif role == 'gaslara':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('gas0'))
+        elif role == 'invilara':  # <--- Ahora está dentro del bloque
+            return redirect(url_for('invilara0'))
         else:
             return render_template('dashboard.html')
     else:
